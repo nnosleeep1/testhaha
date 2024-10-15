@@ -63,8 +63,10 @@ public class MenuItem extends javax.swing.JPanel {
         this.eventSelected = eventSelected;
         this.index = index;
         setOpaque(false);
-        setLayout(new MigLayout("wrap, fillx, insets 0", "[fill]", "[fill, 20!]0[fill, 35!]"));
+        setLayout(new MigLayout("wrap, fillx, insets 0", "[fill]", "[fill, 30!]0[fill, 35!]"));
         MenuButton firstItem = new MenuButton(menu.getIcon(), "      " + menu.getMenuName());
+        firstItem.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 18));
+        // hiệu ứng đống mở
         firstItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
@@ -79,8 +81,10 @@ public class MenuItem extends javax.swing.JPanel {
         });
         add(firstItem);
         int subMenuIndex = -1;
+        //add subitem
         for (String st : menu.getSubMenu()) {
             MenuButton item = new MenuButton(st);
+            item.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 16));
             item.setIndex(++subMenuIndex);
             item.addActionListener(new ActionListener() {
                 @Override
@@ -102,6 +106,7 @@ public class MenuItem extends javax.swing.JPanel {
 
         lblIcon.setForeground(new java.awt.Color(255, 255, 255));
 
+        lblName.setFont(new java.awt.Font("Segoe UI", 0, 48)); // NOI18N
         lblName.setForeground(new java.awt.Color(255, 255, 255));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
