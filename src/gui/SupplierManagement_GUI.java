@@ -4,7 +4,7 @@
  */
 package gui;
 
-import com.formdev.flatlaf.FlatClientProperties;
+//import com.formdev.flatlaf.FlatClientProperties;
 import entity.Order;
 import entity.PurchaseOrder;
 import entity.PurchaseOrderDetail;
@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.table.DefaultTableModel;
-import main.Application;
+//import main.Application;
 import raven.toast.Notifications;
 import utilities.SVGIcon;
 

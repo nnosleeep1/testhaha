@@ -127,22 +127,22 @@ public class Order_GUI extends javax.swing.JPanel {
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Thông tin hóa đơn", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 16))); // NOI18N
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jLabel4.setText("Mã hóa đơn");
+        jLabel4.setText("Mã hóa đơn:");
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jLabel5.setText("Ngày tạo");
+        jLabel5.setText("Ngày tạo: ");
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jLabel6.setText("Chiết khấu");
+        jLabel6.setText("Chiết khấu:");
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jLabel7.setText("Khách phải trả");
+        jLabel7.setText("Khách phải trả:");
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jLabel8.setText("Phương thức");
+        jLabel8.setText("Phương thức:");
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jLabel9.setText("Tiền khách đưa");
+        jLabel9.setText("Tiền khách đưa:");
 
         jTextField4.setEnabled(false);
 
@@ -164,7 +164,7 @@ public class Order_GUI extends javax.swing.JPanel {
         });
 
         jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jLabel10.setText("Tiền thừa");
+        jLabel10.setText("Tiền thừa:");
 
         jTextField9.setEnabled(false);
 

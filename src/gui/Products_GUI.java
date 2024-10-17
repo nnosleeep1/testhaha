@@ -62,8 +62,6 @@ public class Products_GUI extends javax.swing.JPanel {
         searchforname = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         searchforname1 = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
-        searchforname2 = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
@@ -339,17 +337,6 @@ public class Products_GUI extends javax.swing.JPanel {
         });
         jPanel1.add(searchforname1, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 50, 230, 30));
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jLabel3.setText("Tìm kiếm");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 20, 136, 30));
-
-        searchforname2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                searchforname2ActionPerformed(evt);
-            }
-        });
-        jPanel1.add(searchforname2, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 50, 250, 30));
-
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel4.setText("Xuất xứ");
         jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 90, 136, 33));
@@ -366,15 +353,15 @@ public class Products_GUI extends javax.swing.JPanel {
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel8.setText("Trạng thái");
-        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 90, 140, 33));
+        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 20, 140, 33));
 
         jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Còn hàng", "Ngưng bán" }));
-        jPanel1.add(jComboBox3, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 120, 250, 33));
+        jPanel1.add(jComboBox3, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 50, 220, 30));
 
         jButton1.setBackground(new java.awt.Color(153, 204, 255));
         jButton1.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jButton1.setText("Tìm");
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 50, 90, 30));
+        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 110, 90, 40));
 
         add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(25, -4, 1110, 170));
     }// </editor-fold>//GEN-END:initComponents
@@ -390,10 +377,6 @@ public class Products_GUI extends javax.swing.JPanel {
     private void jTextField21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField21ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField21ActionPerformed
-
-    private void searchforname2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchforname2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_searchforname2ActionPerformed
 
     private void searchforname1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchforname1ActionPerformed
         // TODO add your handling code here:
@@ -421,7 +404,6 @@ public class Products_GUI extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel25;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -449,6 +431,5 @@ public class Products_GUI extends javax.swing.JPanel {
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField searchforname;
     private javax.swing.JTextField searchforname1;
-    private javax.swing.JTextField searchforname2;
     // End of variables declaration//GEN-END:variables
 }
