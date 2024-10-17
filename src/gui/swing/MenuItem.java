@@ -65,7 +65,7 @@ public class MenuItem extends javax.swing.JPanel {
         setOpaque(false);
         setLayout(new MigLayout("wrap, fillx, insets 0", "[fill]", "[fill, 30!]0[fill, 35!]"));
         MenuButton firstItem = new MenuButton(menu.getIcon(), "      " + menu.getMenuName());
-        firstItem.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 18));
+        firstItem.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 17));
         // hiệu ứng đống mở
         firstItem.addActionListener(new ActionListener() {
             @Override
@@ -73,7 +73,7 @@ public class MenuItem extends javax.swing.JPanel {
                 if (menu.getSubMenu().length > 0) {
                     if (event.menuPressed(MenuItem.this, !open)) {
                         open = !open;
-                        
+
                     }
                 }
                 eventSelected.menuSelected(index, -1);
@@ -95,7 +95,45 @@ public class MenuItem extends javax.swing.JPanel {
             add(item);
         }
     }
-    
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        int width = getWidth();
+        int height = getPreferredSize().height;
+        Graphics2D g2 = (Graphics2D) g;
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2.setColor(Color.decode("#11998e"));
+        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
+        g2.fillRect(0, 65, width, 38);
+        g2.setComposite(AlphaComposite.SrcOver);
+        g2.fillRect(0, 100, width, height - 100);
+        g2.setColor(new Color(100, 100, 100));
+        // chứa menu con thì mới vẽ đường line và vẽ mũi tên xuống cho các component cha
+        if (menu.getSubMenu().length > 0) {
+            g2.drawLine(30, 100, 30, height - 10);
+            createArrowButton(g2);
+
+        }
+        // vẽ đường line ngang cho các submenu
+        for (int i = 0; i < menu.getSubMenu().length; i++) {
+            int y = ((i + 1) * 35 + 100) - 10;
+            g2.drawLine(30, y, 38, y);
+        }
+        super.paintComponent(g);
+    }
+
+    // hàm vẽ đường line cho menu con
+    public void createArrowButton(Graphics2D g2) {
+        int size = 4;
+        int y = 80;
+        int x = 205;
+        g2.setColor(new Color(250, 250, 250));
+        float ay = alpha * size;
+        float ay1 = (1f - alpha) * size;
+        g2.drawLine(x, (int) (y + ay), x + 4, (int) (y + ay1));
+        g2.drawLine((x + 4) , (int) (y + ay1), x + 8, (int) (y + ay));
+
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents

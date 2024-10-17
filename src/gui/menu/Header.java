@@ -4,6 +4,8 @@
  */
 package gui.menu;
 
+import java.awt.event.ActionListener;
+
 /**
  *
  * @author User
@@ -15,6 +17,10 @@ public class Header extends javax.swing.JPanel {
      */
     public Header() {
         initComponents();
+        
+    }
+    public void addMenuEvent(ActionListener event){
+        cdmMenu.addActionListener(event);
     }
 
     /**
@@ -26,21 +32,41 @@ public class Header extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setBackground(new java.awt.Color(54, 62, 173));
+        cdmMenu = new gui.swing.Button();
+
+        setBackground(new java.awt.Color(255, 255, 255));
+
+        cdmMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/menu.png"))); // NOI18N
+        cdmMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cdmMenuActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 550, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(cdmMenu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(538, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 40, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(cdmMenu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void cdmMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cdmMenuActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cdmMenuActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private gui.swing.Button cdmMenu;
     // End of variables declaration//GEN-END:variables
 }

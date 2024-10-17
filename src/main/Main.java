@@ -8,7 +8,12 @@ import gui.event.EventMenuSelected;
 import gui.main.MainForm;
 import gui.menu.Header;
 import gui.menu.Menu;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import net.miginfocom.swing.MigLayout;
+import org.jdesktop.animation.timing.Animator;
+import org.jdesktop.animation.timing.TimingTarget;
+import org.jdesktop.animation.timing.TimingTargetAdapter;
 
 /**
  *
@@ -20,6 +25,7 @@ public class Main extends javax.swing.JFrame {
     private Menu menu;
     private Header header;
     private MainForm main;
+    private Animator animator;
 
     public Main() {
         initComponents();
@@ -35,13 +41,54 @@ public class Main extends javax.swing.JFrame {
         menu.addEvent(new EventMenuSelected() {
             @Override
             public void menuSelected(int menuIndex, int subMenuIndex) {
-                System.out.println("Menu index: "+ menuIndex + "Sub Index: "+subMenuIndex);
+                System.out.println("Menu index: " + menuIndex + "Sub Index: " + subMenuIndex);
             }
         });
         menu.initMenuItem();
-        bg.add(menu,"w 230!, spany 2");
+        bg.add(menu, "w 230!, spany 2");
         bg.add(header, "h 50!, wrap");
         bg.add(main, "w 100%, h 100%");
+        TimingTarget target = new TimingTargetAdapter() {
+            @Override
+            public void timingEvent(float fraction) {
+                double width;
+                if (menu.isShowMenu()) {
+                    width = 50 + (190 * (1f - fraction));
+
+                } else {
+                    width = 50 + (190 * fraction);
+
+                }
+                layout.setComponentConstraints(menu, "w " + width + "!, spany2");
+                menu.revalidate();
+            }
+
+            @Override
+            public void end() {
+                menu.setShowMenu(!menu.isShowMenu());
+                menu.setEnableMenu(true);
+            }
+
+        };
+        animator = new Animator(500, target);
+        animator.setResolution(0);
+        animator.setDeceleration(0.5f);
+        animator.setAcceleration(0.5f);
+        
+        
+        header.addMenuEvent(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (!animator.isRunning()) {
+                    animator.start();
+                }
+                menu.setEnableMenu(false);
+                if(menu.isShowMenu()){
+                    //ẩn menu sau khi thu gọn
+                    menu.hideAllMenu();
+                }
+            }
+        });
     }
 
     /**
