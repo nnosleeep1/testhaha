@@ -7,6 +7,7 @@ package gui.menu;
 import com.formdev.flatlaf.util.Animator;
 import gui.event.EventMenu;
 import gui.event.EventMenuSelected;
+import gui.event.EventShowPopupMenu;
 import gui.model.ModelMenu;
 import gui.swing.MenuAnimation;
 import gui.swing.MenuItem;
@@ -33,6 +34,9 @@ import org.jdesktop.animation.timing.TimingTargetAdapter;
  * @author User
  */
 public class Menu extends javax.swing.JPanel {
+
+
+
 
     public void addEvent(EventMenuSelected event) {
         this.event = event;
@@ -65,10 +69,13 @@ public class Menu extends javax.swing.JPanel {
     public void setShowMenu(boolean showMenu) {
         this.showMenu = showMenu;
     }
-
+    public void addEventShowPopup(EventShowPopupMenu eventShowPopup) {
+        this.eventShowPopup = eventShowPopup;
+    }
     private final MigLayout layout;
 //    private final Animator animator;
     private EventMenuSelected event;
+    private EventShowPopupMenu eventShowPopup;
     private boolean enableMenu = true;
     private boolean showMenu = true;
     private MenuItem menuItem;
@@ -84,7 +91,7 @@ public class Menu extends javax.swing.JPanel {
 
     public void initMenuItem() {
         addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/img/drugs.png")), "Thuốc"));
-        addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/img/checklist.png")), "Hóa đơn", "Đổi trả", "Lịch sử hóa đơn"));
+        addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/img/checklist.png")), "Hóa đơn","Tạo hóa đơn","Đổi trả", "Lịch sử hóa đơn"));
         addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/img/computer.png")), "Thống kê", "Thuốc", "Khách hàng", "Doanh thu", "Kết ca"));
         addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/img/end.png")), "Khách hàng"));
         addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/img/employee.png")), "Nhân viên"));
@@ -102,7 +109,7 @@ public class Menu extends javax.swing.JPanel {
         for(Component c: panel.getComponents()){
             MenuItem item = (MenuItem)c;
             if(item.isOpen()){
-                new MenuAnimation(layout,c).closeMenu();
+                new MenuAnimation(layout,c,500).closeMenu();
                 item.setOpen(false);
             }
         }
@@ -120,7 +127,7 @@ public class Menu extends javax.swing.JPanel {
                         }
                         return true;
                     } else {
-                            System.out.println("show pop up menu (menu is close )");
+                            eventShowPopup.showPopup(com);
                     }
                 }
                 return false;

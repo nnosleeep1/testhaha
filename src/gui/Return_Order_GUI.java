@@ -285,12 +285,7 @@ public class Return_Order_GUI extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_searchReturnOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_searchReturnOrderActionPerformed
-        String returnOrderID = txt_searchReturnOrder.getText();
-        if(txt_searchReturnOrder.equals("")) {
-            Notifications.getInstance().show(Notifications.Type.INFO, "Vui lòng nhập mã hoá đơn cần tìm");
-            return;
-        }
-        renderReturnOrderTables(bus.searchById(returnOrderID));
+   
 
     }//GEN-LAST:event_btn_searchReturnOrderActionPerformed
 

@@ -122,7 +122,7 @@ public class MenuItem extends javax.swing.JPanel {
         super.paintComponent(g);
     }
 
-    // hàm vẽ đường line cho menu con
+    // hàm vẽ đường line cho menu con(mũi tên lên xuống)
     public void createArrowButton(Graphics2D g2) {
         int size = 4;
         int y = 80;

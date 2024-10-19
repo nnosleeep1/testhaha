@@ -4,10 +4,21 @@
  */
 package main;
 
+import gui.Customers_GUI;
+import gui.Employees_GUI;
+import gui.NhaCungCap_GUI;
+import gui.Order_GUI;
+import gui.Products_GUI;
+import gui.Return_Order_GUI;
+import gui.SupplierManagement_GUI;
 import gui.event.EventMenuSelected;
+import gui.event.EventShowPopupMenu;
 import gui.main.MainForm;
 import gui.menu.Header;
 import gui.menu.Menu;
+import gui.swing.MenuItem;
+import gui.swing.PopupMenu;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import net.miginfocom.swing.MigLayout;
@@ -42,6 +53,37 @@ public class Main extends javax.swing.JFrame {
             @Override
             public void menuSelected(int menuIndex, int subMenuIndex) {
                 System.out.println("Menu index: " + menuIndex + "Sub Index: " + subMenuIndex);
+                if (menuIndex == 0) {
+                    main.showForm(new Products_GUI());
+                } else if (menuIndex == 1) {
+                    if (subMenuIndex == 0) {
+                        main.showForm(new Order_GUI());
+                    } else if (subMenuIndex == 1) {
+                        main.showForm(new Return_Order_GUI());
+
+                    }
+                } else if (menuIndex == 2) {
+                    if (subMenuIndex == 0) {
+                    }
+                } else if (menuIndex == 3) {
+                    main.showForm(new Customers_GUI());
+
+                } else if (menuIndex == 4) {
+                    main.showForm(new Employees_GUI());
+                } else if (menuIndex == 5) {
+                    main.showForm(new NhaCungCap_GUI());
+                }
+            }
+        });
+        menu.addEventShowPopup(new EventShowPopupMenu() {
+            @Override
+            public void showPopup(Component com) {
+                MenuItem item = (MenuItem) com;
+                PopupMenu popup = new PopupMenu(Main.this, item.getIndex(), item.getEventSelected(), item.getMenu().getSubMenu());
+                int x = Main.this.getX() + 52;
+                int y = Main.this.getY() + com.getY() + 156;
+                popup.setLocation(x, y);
+                popup.setVisible(true);
             }
         });
         menu.initMenuItem();
@@ -74,8 +116,7 @@ public class Main extends javax.swing.JFrame {
         animator.setResolution(0);
         animator.setDeceleration(0.5f);
         animator.setAcceleration(0.5f);
-        
-        
+
         header.addMenuEvent(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -83,7 +124,7 @@ public class Main extends javax.swing.JFrame {
                     animator.start();
                 }
                 menu.setEnableMenu(false);
-                if(menu.isShowMenu()){
+                if (menu.isShowMenu()) {
                     //ẩn menu sau khi thu gọn
                     menu.hideAllMenu();
                 }
