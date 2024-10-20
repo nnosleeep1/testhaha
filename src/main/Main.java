@@ -10,7 +10,6 @@ import gui.NhaCungCap_GUI;
 import gui.Order_GUI;
 import gui.Products_GUI;
 import gui.Return_Order_GUI;
-import gui.SupplierManagement_GUI;
 import gui.event.EventMenuSelected;
 import gui.event.EventShowPopupMenu;
 import gui.main.MainForm;
@@ -21,6 +20,9 @@ import gui.swing.PopupMenu;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import net.miginfocom.swing.MigLayout;
 import org.jdesktop.animation.timing.Animator;
 import org.jdesktop.animation.timing.TimingTarget;
@@ -69,7 +71,11 @@ public class Main extends javax.swing.JFrame {
                     main.showForm(new Customers_GUI());
 
                 } else if (menuIndex == 4) {
-                    main.showForm(new Employees_GUI());
+                    try {
+                        main.showForm(new Employees_GUI());
+                    } catch (SQLException ex) {
+                        Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 } else if (menuIndex == 5) {
                     main.showForm(new NhaCungCap_GUI());
                 }
