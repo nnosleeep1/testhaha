@@ -26,7 +26,7 @@ public class NhanVien_DAO {
     public Boolean create(NhanVien nv) {
         int n = 0;
         try {
-            PreparedStatement ps = ConnectDB.conn.prepareStatement("insert NhanVien values (?,?,?,?,?,?,?) ");
+            PreparedStatement ps = ConnectDB.conn.prepareStatement("insert NhanVien values (?,?,?,?,?,?,?,?) ");
             ps.setString(1, nv.getMaNhanVien());
             ps.setString(2, nv.getTenNhanVien());
             ps.setString(3, nv.getEmail());
@@ -96,14 +96,14 @@ public class NhanVien_DAO {
     public boolean suaNhanVien(String maNhanvien, NhanVien newNV) throws SQLException {
         int n = 0;
         try {
-            PreparedStatement st = ConnectDB.conn.prepareStatement("UPDATE [dbo].[Employee]"
-                    + "      ,[tenNhanVien] = ?"
-                    + "      ,[email] = ?"
-                    + "      ,[sdt] = ?"
-                    + "      ,[diaChi] = ?"
-                    + "      ,[cccd] = ?"
-                    + "      ,[trangThai] = ?"
-                    + "      ,[ngayVaoLam] = ?"
+            PreparedStatement st = ConnectDB.conn.prepareStatement("UPDATE NhanVien set"
+                    + "      [tenNhanVien] = ?,"
+                    + "      [email] = ?,"
+                    + "      [sdt] = ?,"
+                    + "      [diaChi] = ?,"
+                    + "      [cccd] = ?,"
+                    + "      [trangThai] = ?,"
+                    + "      [ngayVaoLam] = ?"
                     + " WHERE maNhanVien = ?");
             st.setString(1, newNV.getTenNhanVien());
             st.setString(2, newNV.getEmail());
@@ -111,7 +111,8 @@ public class NhanVien_DAO {
             st.setString(4, newNV.getDiaChi());
             st.setString(5, newNV.getCccd());
             st.setBoolean(6, newNV.isTrangThai());
-            st.setDate(7, new Date(newNV.getNgayVaolam().getYear(), newNV.getNgayVaolam().getMonthValue(), newNV.getNgayVaolam().getDayOfMonth()));
+            st.setDate(7, new Date(newNV.getNgayVaolam().getYear()-1900, newNV.getNgayVaolam().getMonthValue()-1, newNV.getNgayVaolam().getDayOfMonth()));
+            st.setString(8, maNhanvien);
             n = st.executeUpdate();
 
         } catch (SQLException ex) {
@@ -157,5 +158,54 @@ public class NhanVien_DAO {
             Logger.getLogger(NhanVien_DAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
+    }
+    public NhanVien timKiemTheoMa(String maNhanVien){
+          try {
+            PreparedStatement ps = ConnectDB.conn.prepareStatement("select * from NhanVien where maNhanVien = ?");
+            ps.setString(1, maNhanVien);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                String maNV = rs.getString("maNhanVien");
+                String tenNhanVien = rs.getString("tenNhanVien");
+                String email = rs.getString("email");
+                String diaChi = rs.getString("diaChi");
+                String sdt = rs.getString("sdt");
+                String cccd = rs.getString("cccd");
+                boolean trangThai = rs.getBoolean("trangThai");
+                Date ngayVaoLam = rs.getDate("ngayVaoLam");
+                LocalDate nvl = LocalDate.of(ngayVaoLam.getYear(), ngayVaoLam.getMonth() + 1, ngayVaoLam.getDate());
+                NhanVien nv = new NhanVien(maNV, tenNhanVien, email, sdt, diaChi, cccd, trangThai, nvl);
+                return nv;
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(NhanVien_DAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+     public ArrayList<NhanVien> timKiemTheoTen(String ten){
+         ArrayList<NhanVien> listNV = new ArrayList<>();
+          try {
+            PreparedStatement ps = ConnectDB.conn.prepareStatement("select * from NhanVien where tenNhanVien like ?");
+             ps.setString(1, "%" + ten + "%");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                String maNV = rs.getString("maNhanVien");
+                String tenNhanVien = rs.getString("tenNhanVien");
+                String email = rs.getString("email");
+                String diaChi = rs.getString("diaChi");
+                String sdt = rs.getString("sdt");
+                String cccd = rs.getString("cccd");
+                boolean trangThai = rs.getBoolean("trangThai");
+                Date ngayVaoLam = rs.getDate("ngayVaoLam");
+                LocalDate nvl = LocalDate.of(ngayVaoLam.getYear(), ngayVaoLam.getMonth() + 1, ngayVaoLam.getDate());
+                NhanVien nv = new NhanVien(maNV, tenNhanVien, email, sdt, diaChi, cccd, trangThai, nvl);
+                listNV.add(nv);
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(NhanVien_DAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return listNV;
     }
 }

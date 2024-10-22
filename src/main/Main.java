@@ -4,6 +4,7 @@
  */
 package main;
 
+import com.formdev.flatlaf.FlatLightLaf;
 import gui.Customers_GUI;
 import gui.Employees_GUI;
 import gui.NhaCungCap_GUI;
@@ -23,6 +24,7 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.UIManager;
 import net.miginfocom.swing.MigLayout;
 import org.jdesktop.animation.timing.Animator;
 import org.jdesktop.animation.timing.TimingTarget;
@@ -46,6 +48,7 @@ public class Main extends javax.swing.JFrame {
     }
 
     public void init() {
+        
         layout = new MigLayout("fill", "0[]0[100%, fill]0", "0[fill, top]0");
         bg.setLayout(layout);
         menu = new Menu();
