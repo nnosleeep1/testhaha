@@ -9,7 +9,9 @@ import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 import connect.ConnectDB;
 import dao.NhanVien_DAO;
+import dao.VaiTro_DAO;
 import entity.NhanVien;
+import entity.VaiTro;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
@@ -34,6 +36,7 @@ public class Employees_GUI extends javax.swing.JPanel {
     private NhanVien_DAO nv_Dao;
     private ArrayList<NhanVien> listNV;
     private DefaultTableModel tableModel;
+    private VaiTro_DAO vaiTro_DAO;
 
     public Employees_GUI() throws SQLException {
         try {
@@ -45,11 +48,13 @@ public class Employees_GUI extends javax.swing.JPanel {
         initComponents();
         ConnectDB.connect();
         nv_Dao = new NhanVien_DAO();
+        vaiTro_DAO = new VaiTro_DAO();
         tableModel = new DefaultTableModel(new String[]{"Mã nhân viên", "Tên nhân viên", "Số điện thoại", "Email", "Địa chỉ", "CCCD"}, 0);
         tableNV.setModel(tableModel);
         buttonGroup1.add(rdb_dangLamViec);
         buttonGroup1.add(rdb_nghiViec);
         initTable();
+        initJcb();
     }
 
     public void initTable() {
@@ -63,6 +68,14 @@ public class Employees_GUI extends javax.swing.JPanel {
             obj[4] = nv.getDiaChi();
             obj[5] = nv.getCccd();
             tableModel.addRow(obj);
+        }
+    }
+
+    public void initJcb() {
+        ArrayList<VaiTro> list = vaiTro_DAO.getAllVaiTro();
+        for (VaiTro vt : list) {
+            jcb_vaiTro.addItem(vt.getTen());
+
         }
     }
 
@@ -106,6 +119,11 @@ public class Employees_GUI extends javax.swing.JPanel {
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Tìm kiếm nhân viên", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 16))); // NOI18N
 
         jtf_timTheoMa.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT,"Nhập mã nhân viên");
+        jtf_timTheoMa.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtf_timTheoMaKeyTyped(evt);
+            }
+        });
 
         jtf_timTheoTen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -143,7 +161,6 @@ public class Employees_GUI extends javax.swing.JPanel {
         });
 
         jcb_vaiTro.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jcb_vaiTro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Vai trò" }));
         jcb_vaiTro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jcb_vaiTroActionPerformed(evt);
@@ -161,8 +178,8 @@ public class Employees_GUI extends javax.swing.JPanel {
                 .addComponent(jtf_timTheoTen, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jcb_trangThai, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(41, 41, 41)
-                .addComponent(jcb_vaiTro, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jcb_vaiTro, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(50, 50, 50)
@@ -519,22 +536,22 @@ public class Employees_GUI extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void btn_locActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_locActionPerformed
-        if (!jtf_timTheoMa.getText().equals("") && jtf_timTheoTen.getText().equals("")) {
-            NhanVien nv = nv_Dao.timKiemTheoMa(jtf_timTheoMa.getText());
-            if (nv != null) {
-                Object obj[] = initObject(nv);
-                DefaultTableModel dm = (DefaultTableModel) tableNV.getModel();
-                dm.getDataVector().removeAllElements();
-                System.out.println(obj);
-                tableModel.addRow(obj);
-            } else {
-                JOptionPane.showMessageDialog(this, "Không tìm thấy nhân viên", "Xác nhận", JOptionPane.DEFAULT_OPTION);
-
-            }
-
-        } else {
-            JOptionPane.showMessageDialog(this, "Không tìm thấy nhân viên", "Xác nhận", JOptionPane.DEFAULT_OPTION);
-        }
+//        if (!jtf_timTheoMa.getText().equals("") && jtf_timTheoTen.getText().equals("")) {
+//            NhanVien nv = nv_Dao.timKiemTheoMa(jtf_timTheoMa.getText());
+//            if (nv != null) {
+//                Object obj[] = initObject(nv);
+//                DefaultTableModel dm = (DefaultTableModel) tableNV.getModel();
+//                dm.getDataVector().removeAllElements();
+//                System.out.println(obj);
+//                tableModel.addRow(obj);
+//            } else {
+//                JOptionPane.showMessageDialog(this, "Không tìm thấy nhân viên", "Xác nhận", JOptionPane.DEFAULT_OPTION);
+//
+//            }
+//
+//        } else {
+//            JOptionPane.showMessageDialog(this, "Không tìm thấy nhân viên", "Xác nhận", JOptionPane.DEFAULT_OPTION);
+//        }
     }//GEN-LAST:event_btn_locActionPerformed
 
     public Object[] initObject(NhanVien nv) {
@@ -604,6 +621,17 @@ public class Employees_GUI extends javax.swing.JPanel {
             tableModel.addRow(obj);
         }
     }//GEN-LAST:event_jtf_timTheoTenKeyTyped
+
+    private void jtf_timTheoMaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtf_timTheoMaKeyTyped
+        tableModel.setRowCount(0);
+
+        List<NhanVien> danhSachNhanVien = nv_Dao.timKiemTheoMa(jtf_timTheoMa.getText());
+
+        for (NhanVien nv : danhSachNhanVien) {
+            Object obj[] = initObject(nv);
+            tableModel.addRow(obj);
+        }
+    }//GEN-LAST:event_jtf_timTheoMaKeyTyped
     public String xuLyMaNV() {
         //luu nhan vien tam
         ArrayList<NhanVien> listTmp = nv_Dao.getAllNhanVien();

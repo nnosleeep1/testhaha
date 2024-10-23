@@ -159,10 +159,11 @@ public class NhanVien_DAO {
         }
         return null;
     }
-    public NhanVien timKiemTheoMa(String maNhanVien){
+    public  ArrayList<NhanVien> timKiemTheoMa(String maNhanVien){
+         ArrayList<NhanVien> listNV = new ArrayList<>();
           try {
-            PreparedStatement ps = ConnectDB.conn.prepareStatement("select * from NhanVien where maNhanVien = ?");
-            ps.setString(1, maNhanVien);
+            PreparedStatement ps = ConnectDB.conn.prepareStatement("select * from NhanVien where maNhanVien like ?");
+             ps.setString(1, "%" + maNhanVien + "%");
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 String maNV = rs.getString("maNhanVien");
@@ -175,13 +176,13 @@ public class NhanVien_DAO {
                 Date ngayVaoLam = rs.getDate("ngayVaoLam");
                 LocalDate nvl = LocalDate.of(ngayVaoLam.getYear(), ngayVaoLam.getMonth() + 1, ngayVaoLam.getDate());
                 NhanVien nv = new NhanVien(maNV, tenNhanVien, email, sdt, diaChi, cccd, trangThai, nvl);
-                return nv;
+              listNV.add(nv);
 
             }
         } catch (SQLException ex) {
             Logger.getLogger(NhanVien_DAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return null;
+        return listNV;
     }
      public ArrayList<NhanVien> timKiemTheoTen(String ten){
          ArrayList<NhanVien> listNV = new ArrayList<>();

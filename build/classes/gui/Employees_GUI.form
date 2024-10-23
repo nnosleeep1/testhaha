@@ -65,9 +65,9 @@
                   <Component id="jtf_timTheoTen" min="-2" pref="221" max="-2" attributes="0"/>
                   <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
                   <Component id="jcb_trangThai" min="-2" pref="140" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
-                  <Component id="jcb_vaiTro" min="-2" pref="140" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Component id="jcb_vaiTro" min="-2" pref="163" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="jButton3" min="-2" pref="110" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
                   <Component id="btn_loc" min="-2" pref="114" max="-2" attributes="0"/>
@@ -99,6 +99,9 @@
       </Layout>
       <SubComponents>
         <Component class="javax.swing.JTextField" name="jtf_timTheoMa">
+          <Events>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jtf_timTheoMaKeyTyped"/>
+          </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jtf_timTheoMa.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT,&quot;Nh&#x1ead;p m&#xe3; nh&#xe2;n vi&#xea;n&quot;);"/>
             <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="jtf_timTheoMa.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT,&quot;Nh&#x1ead;p m&#xe3; nh&#xe2;n vi&#xea;n&quot;);"/>
@@ -161,9 +164,7 @@
               <Font name="Segoe UI" size="16" style="0"/>
             </Property>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="1">
-                <StringItem index="0" value="Vai tr&#xf2;"/>
-              </StringArray>
+              <StringArray count="0"/>
             </Property>
           </Properties>
           <Events>
