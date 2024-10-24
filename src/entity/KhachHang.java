@@ -4,54 +4,80 @@ import java.util.Objects;
 
 public class KhachHang {
 
-    private String maKH;
-    private String tenKhachHang;
-    private String sdt;
-    private long diemTichLuy;
-
+    /**
+     * @return the maKH
+     */
     public String getMaKH() {
         return maKH;
     }
 
-    public String getTenKhachHang() {
-        return tenKhachHang;
-    }
-
-    public String getSdt() {
-        return sdt;
-    }
-
-    public long getDiemTichLuy() {
-        return diemTichLuy;
-    }
-
+    /**
+     * @param maKH the maKH to set
+     */
     public void setMaKH(String maKH) {
         this.maKH = maKH;
     }
 
+    /**
+     * @return the tenKhachHang
+     */
+    public String getTenKhachHang() {
+        return tenKhachHang;
+    }
+
+    /**
+     * @param tenKhachHang the tenKhachHang to set
+     */
     public void setTenKhachHang(String tenKhachHang) {
         this.tenKhachHang = tenKhachHang;
     }
 
+    /**
+     * @return the sdt
+     */
+    public String getSdt() {
+        return sdt;
+    }
+
+    /**
+     * @param sdt the sdt to set
+     */
     public void setSdt(String sdt) {
         this.sdt = sdt;
     }
 
-    public void setDiemTichLuy(long diemTichLuy) {
+    /**
+     * @return the diemTichLuy
+     */
+    public double getDiemTichLuy() {
+        return diemTichLuy;
+    }
+
+    /**
+     * @param diemTichLuy the diemTichLuy to set
+     */
+    public void setDiemTichLuy(double diemTichLuy) {
         this.diemTichLuy = diemTichLuy;
     }
 
-    public KhachHang(String maKH, String tenKhachHang, String sdt, long diemTichLuy) {
+    private String maKH;
+    private String tenKhachHang;
+    private String sdt;
+    private double diemTichLuy;
+
+  
+    public KhachHang(String maKH, String tenKhachHang, String sdt, double diemTichLuy) {
         this.maKH = maKH;
         this.tenKhachHang = tenKhachHang;
         this.sdt = sdt;
         this.diemTichLuy = diemTichLuy;
     }
 
+   
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 29 * hash + Objects.hashCode(this.maKH);
+        hash = 29 * hash + Objects.hashCode(this.getMaKH());
         return hash;
     }
 
@@ -67,7 +93,7 @@ public class KhachHang {
             return false;
         }
         final KhachHang other = (KhachHang) obj;
-        return Objects.equals(this.maKH, other.maKH);
+        return Objects.equals(this.getMaKH(), other.getMaKH());
     }
 
     @Override

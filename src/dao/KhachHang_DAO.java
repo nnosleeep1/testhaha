@@ -6,11 +6,13 @@ package dao;
 
 import connect.ConnectDB;
 import entity.KhachHang;
+import entity.NhanVien;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.sql.*;
+import java.time.LocalDate;
 
 /**
  *
@@ -25,7 +27,7 @@ public class KhachHang_DAO {
             ps.setString(1, kh.getMaKH());
             ps.setString(2, kh.getTenKhachHang());
             ps.setString(3, kh.getSdt());
-            ps.setLong(4, kh.getDiemTichLuy());
+            ps.setDouble(4, kh.getDiemTichLuy());
             n = ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -43,7 +45,7 @@ public class KhachHang_DAO {
                 String maKhachHang = rs.getString("maKhachHang");
                 String tenKhachHang = rs.getString("tenKhachHang");
                 String sdt = rs.getString("sdt");
-                Long diemTichLuy = rs.getLong("diemTichLuy");
+                double diemTichLuy = rs.getDouble("diemTichLuy");
                 KhachHang kh = new KhachHang(maKhachHang, tenKhachHang, sdt, diemTichLuy);
                 list.add(kh);
             }
@@ -52,4 +54,26 @@ public class KhachHang_DAO {
         }
         return list;
     }
+    
+     public ArrayList<KhachHang> timKiemTheoMa(String maKhachHang) {
+        ArrayList<KhachHang> listKH = new ArrayList<>();
+        try {
+            PreparedStatement ps = ConnectDB.conn.prepareStatement("select * from KhachHang where maKhachHang = ?");
+            ps.setString(1, "%" + maKhachHang + "%");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                String maKH = rs.getString("maKhachHang");
+                String tenKhachHang = rs.getString("tenKhachHang");
+                String sdt = rs.getString("sdt");
+                double diemTichLuy = rs.getDouble("diemTichLuy");
+                KhachHang kh = new KhachHang(maKH, tenKhachHang, sdt, diemTichLuy);
+                listKH.add(kh);
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(NhanVien_DAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return listKH   ;
+    }
+    
 }

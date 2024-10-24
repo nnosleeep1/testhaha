@@ -491,11 +491,6 @@
                               <Component id="jLabel2" min="-2" pref="136" max="-2" attributes="0"/>
                               <Component id="searchforname1" min="-2" pref="230" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace min="100" pref="100" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jLabel8" min="-2" pref="140" max="-2" attributes="0"/>
-                              <Component id="jComboBox3" min="-2" pref="220" max="-2" attributes="0"/>
-                          </Group>
                       </Group>
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
@@ -511,6 +506,7 @@
                           <Component id="jButton1" min="-2" pref="90" max="-2" attributes="0"/>
                       </Group>
                   </Group>
+                  <EmptySpace min="-2" pref="56" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -527,11 +523,6 @@
                           <Component id="jLabel2" min="-2" pref="30" max="-2" attributes="0"/>
                           <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                           <Component id="searchforname1" min="-2" pref="30" max="-2" attributes="0"/>
-                      </Group>
-                      <Component id="jLabel8" min="-2" pref="33" max="-2" attributes="0"/>
-                      <Group type="102" attributes="0">
-                          <EmptySpace min="30" pref="30" max="-2" attributes="0"/>
-                          <Component id="jComboBox3" min="-2" pref="30" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
@@ -621,27 +612,6 @@
                 <StringItem index="1" value="Kh&#xe1;ng sinh"/>
                 <StringItem index="2" value="Ngo&#xe0;i da"/>
                 <StringItem index="3" value="Ti&#xea;u h&#xf3;a"/>
-              </StringArray>
-            </Property>
-          </Properties>
-          <AuxValues>
-            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-          </AuxValues>
-        </Component>
-        <Component class="javax.swing.JLabel" name="jLabel8">
-          <Properties>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Segoe UI" size="16" style="0"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="Tr&#x1ea1;ng th&#xe1;i"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JComboBox" name="jComboBox3">
-          <Properties>
-            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="2">
-                <StringItem index="0" value="C&#xf2;n h&#xe0;ng"/>
-                <StringItem index="1" value="Ng&#x1b0;ng b&#xe1;n"/>
               </StringArray>
             </Property>
           </Properties>

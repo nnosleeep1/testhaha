@@ -7,6 +7,7 @@ package main;
 import com.formdev.flatlaf.FlatLightLaf;
 import gui.Customers_GUI;
 import gui.Employees_GUI;
+import gui.LoginForm;
 import gui.NhaCungCap_GUI;
 import gui.Order_GUI;
 import gui.Products_GUI;
@@ -67,7 +68,7 @@ public class Main extends javax.swing.JFrame {
                         main.showForm(new Return_Order_GUI());
 
                     }
-                } else if (menuIndex == 2) {
+                } else if (menuIndex == 2) {    
                     if (subMenuIndex == 0) {
                     }
                 } else if (menuIndex == 3) {
