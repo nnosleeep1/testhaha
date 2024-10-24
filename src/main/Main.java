@@ -4,6 +4,7 @@
  */
 package main;
 
+import gui.ThongKeThuoc_GUI;
 import com.formdev.flatlaf.FlatLightLaf;
 import gui.Customers_GUI;
 import gui.Employees_GUI;
@@ -11,6 +12,7 @@ import gui.NhaCungCap_GUI;
 import gui.Order_GUI;
 import gui.Products_GUI;
 import gui.Return_Order_GUI;
+import gui.ThongKeThuoc_GUI;
 import gui.event.EventMenuSelected;
 import gui.event.EventShowPopupMenu;
 import gui.main.MainForm;
@@ -29,6 +31,7 @@ import net.miginfocom.swing.MigLayout;
 import org.jdesktop.animation.timing.Animator;
 import org.jdesktop.animation.timing.TimingTarget;
 import org.jdesktop.animation.timing.TimingTargetAdapter;
+
 
 /**
  *
@@ -69,6 +72,11 @@ public class Main extends javax.swing.JFrame {
                     }
                 } else if (menuIndex == 2) {
                     if (subMenuIndex == 0) {
+                        try {
+                            main.showForm(new ThongKeThuoc_GUI());
+                        } catch (SQLException ex) {
+                            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                     }
                 } else if (menuIndex == 3) {
                     main.showForm(new Customers_GUI());

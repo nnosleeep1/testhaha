@@ -128,7 +128,7 @@ public class Customers_GUI extends javax.swing.JPanel {
         jLabel4.setText("Số điện thoại :");
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jLabel5.setText("Điểm tích lũy :");
+        jLabel5.setText("Tổng thanh toán:");
 
         jTextField5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
