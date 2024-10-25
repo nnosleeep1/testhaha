@@ -4,7 +4,9 @@
  */
 package main;
 
+import com.formdev.flatlaf.FlatIntelliJLaf;
 import com.formdev.flatlaf.FlatLightLaf;
+import com.formdev.flatlaf.IntelliJTheme;
 import gui.Customers_GUI;
 import gui.Employees_GUI;
 import gui.LoginForm;
@@ -26,6 +28,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import net.miginfocom.swing.MigLayout;
 import org.jdesktop.animation.timing.Animator;
 import org.jdesktop.animation.timing.TimingTarget;
@@ -42,6 +45,7 @@ public class Main extends javax.swing.JFrame {
     private Header header;
     private MainForm main;
     private Animator animator;
+    private LoginForm login;
 
     public Main() {
         initComponents();
@@ -49,12 +53,13 @@ public class Main extends javax.swing.JFrame {
     }
 
     public void init() {
-        
+        IntelliJTheme.setup(Main.class.getResourceAsStream("com/mallowigi/idea/actions/ActionGroup.class"));
         layout = new MigLayout("fill", "0[]0[100%, fill]0", "0[fill, top]0");
         bg.setLayout(layout);
         menu = new Menu();
         header = new Header();
         main = new MainForm();
+        login = new LoginForm();
         menu.addEvent(new EventMenuSelected() {
             @Override
             public void menuSelected(int menuIndex, int subMenuIndex) {
