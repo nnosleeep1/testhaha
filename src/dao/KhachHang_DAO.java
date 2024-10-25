@@ -18,22 +18,7 @@ import java.sql.*;
  */
 public class KhachHang_DAO {
 
-    public Boolean create(KhachHang kh) {
-        int n = 0;
-        try {
-            PreparedStatement ps = ConnectDB.conn.prepareStatement("insert KhachHang values (?,?,?,?) ");
-            ps.setString(1, kh.getMaKH());
-            ps.setString(2, kh.getTenKhachHang());
-            ps.setString(3, kh.getSdt());
-            ps.setLong(4, kh.getDiemTichLuy());
-            n = ps.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return n > 0;
-    }
-
-    public static  ArrayList<KhachHang> getAllKhachHang() {
+    public ArrayList<KhachHang> getAllKhachHang() {
         ArrayList<KhachHang> list = new ArrayList<>();
 
         try {
@@ -53,7 +38,7 @@ public class KhachHang_DAO {
         return list;
     }
 
-    public KhachHang getKhachHang(String maKH) {
+    public static KhachHang getKhachHang(String maKH) {
         KhachHang khachHang = null;
         try {
             PreparedStatement ps = ConnectDB.conn.prepareStatement("SELECT * FROM KhachHang WHERE maKhachHang = ?");
@@ -72,7 +57,7 @@ public class KhachHang_DAO {
         return khachHang;
     }
 
-    public Boolean taoMoi(KhachHang kh) {
+    public static Boolean taoMoi(KhachHang kh) {
         try {
             String phoneCheck = "select * from Customer where phoneNumber = ?";
             PreparedStatement phoneStatement = ConnectDB.conn.prepareStatement(phoneCheck);
