@@ -18,7 +18,7 @@ import java.sql.*;
  */
 public class KhachHang_DAO {
 
-    public ArrayList<KhachHang> getAllKhachHang() {
+    public static ArrayList<KhachHang> getAllKhachHang() {
         ArrayList<KhachHang> list = new ArrayList<>();
 
         try {

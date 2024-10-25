@@ -17,6 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import org.apache.poi.ss.usermodel.Cell;
@@ -366,7 +367,16 @@ public class Customers_GUI extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_locActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_locActionPerformed
-        // TODO add your handling code here:
+        KhachHang kh = timKiemTheoSoDienThoai(jtf_soDienThoai.getText().trim());
+        if (kh == null) {
+            JOptionPane.showConfirmDialog(null, "Khách hàng chưa phải là thành viên");
+            jtf_soDienThoai.setFocusable(true);
+        } else {
+            ArrayList<KhachHang> list = new ArrayList<>();
+            list.add(kh);
+            taiThongTinLenBang(list);
+            jtf_soDienThoai.setText("");
+        }
     }//GEN-LAST:event_btn_locActionPerformed
 
     private void jScrollPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jScrollPane1MouseClicked
@@ -536,6 +546,16 @@ public class Customers_GUI extends javax.swing.JPanel {
         String sdt = jtf_sdt.getText().trim();
         Long diemTichLuy = Long.valueOf(jtf_diemTichLuy.getText());
         return new KhachHang(maKhachHang, tenKhachHang, sdt, diemTichLuy);
+    }
+
+    public KhachHang timKiemTheoSoDienThoai(String number) {
+        listKH = new KhachHang_DAO().getAllKhachHang();
+        for (KhachHang kh : listKH) {
+            if (kh.getSdt().equals(number)) {
+                return kh;
+            }
+        }
+        return null;
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_capNhat;
