@@ -12,7 +12,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -150,11 +149,6 @@ public class Customers_GUI extends javax.swing.JPanel {
 
             }
         ));
-        tbl_khachHang.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tbl_khachHangMouseClicked(evt);
-            }
-        });
         jScrollPane1.setViewportView(tbl_khachHang);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -334,7 +328,7 @@ public class Customers_GUI extends javax.swing.JPanel {
                 .addComponent(pnl_diemTichLuy, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pnl_tongThanhToan, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 141, Short.MAX_VALUE)
                 .addGroup(pn_infoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_capNhat, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_lamMoi, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -376,7 +370,15 @@ public class Customers_GUI extends javax.swing.JPanel {
     }//GEN-LAST:event_btn_locActionPerformed
 
     private void jScrollPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jScrollPane1MouseClicked
-        // TODO add your handling code here:
+        // TODO add your handling code here:int row = tbl_customer.getSelectedRow();
+        int index = tbl_khachHang.getSelectedRow();
+        String maKhachHang = tbl_khachHang.getValueAt(index, 0) + "";
+        KhachHang kh = KhachHang_DAO.getKhachHang(maKhachHang);
+        jtf_maKhachHang.setText(tbl_khachHang.getValueAt(index, 0) + "");
+        jtf_tenKhachHang.setText(tbl_khachHang.getValueAt(index, 1) + "");
+        jtf_sdt.setText(kh.getSdt());
+        jtf_diemTichLuy.setText(tbl_khachHang.getValueAt(index, 2) + "");
+        jtf_tongThanhToan.setText(tbl_khachHang.getValueAt(index, 3) + "");
     }//GEN-LAST:event_jScrollPane1MouseClicked
 
     private void jtf_maKhachHangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtf_maKhachHangActionPerformed
@@ -402,7 +404,6 @@ public class Customers_GUI extends javax.swing.JPanel {
     }//GEN-LAST:event_btn_xuatFileActionPerformed
 
     private void btn_themMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_themMoiActionPerformed
-        // TODO add your handling code here:
         try {
             // TODO add your handling code here:
             KhachHang kh = new KhachHang(jtf_maKhachHang.getText(), jtf_tenKhachHang.getText(), jtf_sdt.getText(), 0);
@@ -421,7 +422,23 @@ public class Customers_GUI extends javax.swing.JPanel {
     }//GEN-LAST:event_btn_themMoiActionPerformed
 
     private void btn_capNhatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_capNhatActionPerformed
-        // TODO add your handling code here:
+        int row = tbl_khachHang.getSelectedRow();
+//        if (row != -1)
+        try {
+            if (row != -1) {
+                KhachHang_DAO.capNhat(jtf_maKhachHang.getText(), getGiaTriForm());
+                taiThongTinLenBang(listKH);
+
+            } else {
+                Notifications.getInstance().show(Notifications.Type.ERROR, "Chưa chọn khách hàng muốn cập nhật thông tin!");
+                return;
+            }
+            Notifications.getInstance().show(Notifications.Type.SUCCESS, "Cập nhật thông tin khách hàng thành công!");
+
+        } catch (Exception ex) {
+            Logger.getLogger(Customers_GUI.class
+                    .getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btn_capNhatActionPerformed
 
     private void btn_lamMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_lamMoiActionPerformed
@@ -430,18 +447,7 @@ public class Customers_GUI extends javax.swing.JPanel {
         jtf_soDienThoai.setText("");
     }//GEN-LAST:event_btn_lamMoiActionPerformed
 
-    private void tbl_khachHangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_khachHangMouseClicked
-        int row = tbl_khachHang.getSelectedRow();
-        if (row != -1) {
-            jtf_maKhachHang.setText(tbl_khachHang.getValueAt(row, 0) + "");
-            jtf_maKhachHang.setText(tbl_khachHang.getValueAt(row, 1) + "");
-            jtf_tenKhachHang.setText(tbl_khachHang.getValueAt(row, 2) + "");
-            jtf_diemTichLuy.setText(tbl_khachHang.getValueAt(row, 3) + "");
-            jtf_tongThanhToan.setText(tbl_khachHang.getValueAt(row, 4) + "");
-        }
-    }//GEN-LAST:event_tbl_khachHangMouseClicked
-
-    public void alterTable() {
+    public final void alterTable() {
         DefaultTableCellRenderer rightAlign = new DefaultTableCellRenderer();
         rightAlign.setHorizontalAlignment(JLabel.RIGHT);
         //// Align
@@ -509,20 +515,28 @@ public class Customers_GUI extends javax.swing.JPanel {
     }
 
     public void lamMoiForm() {
+        jtf_maKhachHang.setText("");
         jtf_tenKhachHang.setText("");
         jtf_sdt.setText("");
         jtf_diemTichLuy.setText("");
         jtf_tongThanhToan.setText("");
     }
 
-    public void taiThongTinLenBang(ArrayList<KhachHang> list) {
+    public final void taiThongTinLenBang(ArrayList<KhachHang> list) {
         model.setRowCount(0);
         for (KhachHang khachHang : list) {
-            Object[] row = new Object[]{khachHang.getMaKH(), khachHang.getTenKhachHang(), khachHang.getSdt(), khachHang.getDiemTichLuy()};
+            Object[] row = new Object[]{khachHang.getMaKH(), khachHang.getTenKhachHang(), khachHang.getDiemTichLuy()};
             model.addRow(row);
         }
     }
 
+    private KhachHang getGiaTriForm() throws Exception {
+        String maKhachHang = jtf_maKhachHang.getText();
+        String tenKhachHang = jtf_tenKhachHang.getText();
+        String sdt = jtf_sdt.getText().trim();
+        Long diemTichLuy = Long.valueOf(jtf_diemTichLuy.getText());
+        return new KhachHang(maKhachHang, tenKhachHang, sdt, diemTichLuy);
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_capNhat;
     private javax.swing.JButton btn_lamMoi;

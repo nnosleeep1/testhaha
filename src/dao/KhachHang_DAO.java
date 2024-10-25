@@ -83,4 +83,22 @@ public class KhachHang_DAO {
         }
     }
 
+    public static Boolean capNhat(String ma, KhachHang newKh) {
+        try {
+            String sql = "UPDATE Customer SET tenKhachHang=?, sdt=?, diemTichLuy=?" + "WHERE maKhachHang=?";
+            PreparedStatement preparedStatement = ConnectDB.conn.prepareStatement(sql);
+
+            preparedStatement.setString(1, newKh.getTenKhachHang());
+            preparedStatement.setString(2, newKh.getSdt());
+            preparedStatement.setLong(3, newKh.getDiemTichLuy());
+
+            int rowsAffected = preparedStatement.executeUpdate();
+            return rowsAffected > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+
+    }
+
 }

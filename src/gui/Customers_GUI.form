@@ -157,9 +157,6 @@
                   <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
                 </Property>
               </Properties>
-              <Events>
-                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tbl_khachHangMouseClicked"/>
-              </Events>
             </Component>
           </SubComponents>
         </Container>
@@ -215,7 +212,7 @@
                   <Component id="pnl_diemTichLuy" min="-2" pref="40" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="pnl_tongThanhToan" min="-2" pref="40" max="-2" attributes="0"/>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace pref="141" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="btn_capNhat" alignment="3" min="-2" pref="50" max="-2" attributes="0"/>
                       <Component id="btn_lamMoi" alignment="3" min="-2" pref="50" max="-2" attributes="0"/>
