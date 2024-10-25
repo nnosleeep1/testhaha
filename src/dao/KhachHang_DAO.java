@@ -33,7 +33,7 @@ public class KhachHang_DAO {
         return n > 0;
     }
 
-    public ArrayList<KhachHang> getAllKhachHang() {
+    public static  ArrayList<KhachHang> getAllKhachHang() {
         ArrayList<KhachHang> list = new ArrayList<>();
 
         try {

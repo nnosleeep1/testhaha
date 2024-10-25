@@ -197,7 +197,7 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="lbl_diemThanhToan" min="-2" pref="149" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="jtx_tongThanhToan" min="-2" pref="204" max="-2" attributes="0"/>
+                                  <Component id="jtf_tongThanhToan" min="-2" pref="204" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace max="32767" attributes="0"/>
@@ -242,7 +242,7 @@
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="lbl_diemThanhToan" alignment="3" min="-2" pref="29" max="-2" attributes="0"/>
-                      <Component id="jtx_tongThanhToan" alignment="3" min="-2" pref="29" max="-2" attributes="0"/>
+                      <Component id="jtf_tongThanhToan" alignment="3" min="-2" pref="29" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
@@ -288,9 +288,9 @@
         </Component>
         <Component class="javax.swing.JTextField" name="jtf_sdt">
         </Component>
-        <Component class="javax.swing.JTextField" name="jtx_tongThanhToan">
+        <Component class="javax.swing.JTextField" name="jtf_tongThanhToan">
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jtx_tongThanhToanActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jtf_tongThanhToanActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="lbl_diemTichLuy">

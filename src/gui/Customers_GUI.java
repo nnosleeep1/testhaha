@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import javax.swing.JFileChooser;
 import org.apache.poi.ss.usermodel.Cell;
@@ -60,7 +61,7 @@ public class Customers_GUI extends javax.swing.JPanel {
         lbl_diemThanhToan = new javax.swing.JLabel();
         jtf_tenKhachHang = new javax.swing.JTextField();
         jtf_sdt = new javax.swing.JTextField();
-        jtx_tongThanhToan = new javax.swing.JTextField();
+        jtf_tongThanhToan = new javax.swing.JTextField();
         lbl_diemTichLuy = new javax.swing.JLabel();
         jtf_diemTichLuy = new javax.swing.JTextField();
         btn_lamMoi = new javax.swing.JButton();
@@ -148,9 +149,9 @@ public class Customers_GUI extends javax.swing.JPanel {
         lbl_diemThanhToan.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         lbl_diemThanhToan.setText("Tổng thanh toán:");
 
-        jtx_tongThanhToan.addActionListener(new java.awt.event.ActionListener() {
+        jtf_tongThanhToan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jtx_tongThanhToanActionPerformed(evt);
+                jtf_tongThanhToanActionPerformed(evt);
             }
         });
 
@@ -222,7 +223,7 @@ public class Customers_GUI extends javax.swing.JPanel {
                             .addGroup(pn_infoLayout.createSequentialGroup()
                                 .addComponent(lbl_diemThanhToan, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jtx_tongThanhToan, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(jtf_tongThanhToan, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(pn_infoLayout.createSequentialGroup()
                         .addGroup(pn_infoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -254,7 +255,7 @@ public class Customers_GUI extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pn_infoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbl_diemThanhToan, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jtx_tongThanhToan, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jtf_tongThanhToan, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(pn_infoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_capNhat, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -292,9 +293,9 @@ public class Customers_GUI extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jtx_tongThanhToanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtx_tongThanhToanActionPerformed
+    private void jtf_tongThanhToanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtf_tongThanhToanActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jtx_tongThanhToanActionPerformed
+    }//GEN-LAST:event_jtf_tongThanhToanActionPerformed
 
     private void btn_locActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_locActionPerformed
         // TODO add your handling code here:
@@ -306,6 +307,8 @@ public class Customers_GUI extends javax.swing.JPanel {
 
     private void btn_lamMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_lamMoiActionPerformed
         // TODO add your handling code here:
+        reloadForm();
+        jtf_soDienThoai.setText("");
     }//GEN-LAST:event_btn_lamMoiActionPerformed
 
     private void btn_capNhatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_capNhatActionPerformed
@@ -397,6 +400,13 @@ public class Customers_GUI extends javax.swing.JPanel {
         }
     }
 
+    public void reloadForm() {
+        jtf_tenKhachHang.setText("");
+        jtf_sdt.setText("");
+        jtf_diemTichLuy.setText("");
+        jtf_tongThanhToan.setText("");
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_capNhat;
     private javax.swing.JButton btn_lamMoi;
@@ -410,7 +420,7 @@ public class Customers_GUI extends javax.swing.JPanel {
     private javax.swing.JTextField jtf_sdt;
     private javax.swing.JTextField jtf_soDienThoai;
     private javax.swing.JTextField jtf_tenKhachHang;
-    private javax.swing.JTextField jtx_tongThanhToan;
+    private javax.swing.JTextField jtf_tongThanhToan;
     private javax.swing.JLabel lbl_diemThanhToan;
     private javax.swing.JLabel lbl_diemTichLuy;
     private javax.swing.JLabel lbl_sdt;
