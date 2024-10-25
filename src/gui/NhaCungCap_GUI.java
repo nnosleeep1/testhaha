@@ -1,13 +1,53 @@
-
 package gui;
 
 import com.formdev.flatlaf.FlatClientProperties;
+import dao.NhaCungCap_DAO;
+import entity.NhaCungCap;
+import entity.NhanVien;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JLabel;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 import utilities.SVGIcon;
 
 public class NhaCungCap_GUI extends javax.swing.JPanel {
+
+    private DefaultTableModel model;
+    private ArrayList<NhaCungCap> listNCC;
+
     public NhaCungCap_GUI() {
         initComponents();
+        try {
+            connect.ConnectDB.connect();
+        } catch (SQLException ex) {
+            Logger.getLogger(NhaCungCap_GUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        model = new DefaultTableModel(new String[]{"Mã nhà cung cấp", "Tên nhà cung cấp", "Số điện thoại", "Địa chỉ", "Email", "Trạng thái"}, 0);
+        tbl_nhaCungCap.setModel(model);
+        listNCC = new NhaCungCap_DAO().getAllNhaCungCap();
+        taiThongTinLenBang(listNCC);
+        alterTable();
     }
+
+    public final void taiThongTinLenBang(ArrayList<NhaCungCap> list) {
+        model.setRowCount(0);
+        for (NhaCungCap nhaCungCap : list) {
+            Object[] row = new Object[]{nhaCungCap.getMaNCC(), nhaCungCap.getTenNCC(), nhaCungCap.getSdt(), nhaCungCap.getDiaChi(), nhaCungCap.getEmail(), nhaCungCap.isTrangThai()};
+            model.addRow(row);
+        }
+    }
+
+    public final void alterTable() {
+        DefaultTableCellRenderer rightAlign = new DefaultTableCellRenderer();
+        rightAlign.setHorizontalAlignment(JLabel.RIGHT);
+        //// Align
+        tbl_nhaCungCap.getColumnModel().getColumn(2).setCellRenderer(rightAlign);
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -84,6 +124,12 @@ public class NhaCungCap_GUI extends javax.swing.JPanel {
         );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Danh sách nhà cung cấp", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 16))); // NOI18N
+
+        jScrollPane1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jScrollPane1MouseClicked(evt);
+            }
+        });
 
         tbl_nhaCungCap.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -271,7 +317,7 @@ public class NhaCungCap_GUI extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 444, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -365,6 +411,23 @@ public class NhaCungCap_GUI extends javax.swing.JPanel {
 //            Notifications.getInstance().show(Notifications.Type.ERROR, ex.getMessage());
 //        }
     }//GEN-LAST:event_btn_themMoiActionPerformed
+
+    private void jScrollPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jScrollPane1MouseClicked
+        int index = tbl_nhaCungCap.getSelectedRow();
+        String maNhaCungCap = tbl_nhaCungCap.getValueAt(index, 0) + "";
+        NhaCungCap ncc = NhaCungCap_DAO.getNhaCungCap(maNhaCungCap);
+//        jtf_maNCC.setText(ncc.getMaNCC());
+        jtf_tenNhaCungCap.setText(ncc.getTenNCC());
+        jtf_soDienThoai.setText(ncc.getSdt());
+        jtf_diaChi.setText(ncc.getDiaChi());
+        jtf_email.setText(ncc.getEmail());
+        if (ncc.isTrangThai()) {
+            rd_dangLamViec.setSelected(true);
+        } else {
+            rd_nghiViec.setSelected(true);
+
+        }
+    }//GEN-LAST:event_jScrollPane1MouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
