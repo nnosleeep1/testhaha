@@ -4,6 +4,27 @@
  */
 package gui;
 
+import com.formdev.flatlaf.FlatClientProperties;
+import dao.KhachHang_DAO;
+import entity.KhachHang;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
+import javax.swing.JFileChooser;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.VerticalAlignment;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import utilities.SVGIcon;
+
 /**
  *
  * @author HÀ NHƯ
@@ -87,15 +108,18 @@ public class Customers_GUI extends javax.swing.JPanel {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Danh sách khách hàng", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 16))); // NOI18N
 
+        jScrollPane1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jScrollPane1MouseClicked(evt);
+            }
+        });
+
         tbl_khachHang.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Tên khách hàng", "Số điện thoại", "Điểm tích lũy", "Tổng tiền đã thanh toán"
+
             }
         ));
         jScrollPane1.setViewportView(tbl_khachHang);
@@ -306,10 +330,72 @@ public class Customers_GUI extends javax.swing.JPanel {
             String filePath = fileToSave.getAbsolutePath();
 
             // Gọi phương thức để tạo file Excel với đường dẫn và tên file đã chọn
-            createExcel(customer_BUS.getAllCustomer(), filePath + ".xlsx");
+            createExcel(KhachHang_DAO.getAllKhachHang(), filePath + ".xlsx");
         }
     }//GEN-LAST:event_btn_xuatFileActionPerformed
 
+    private void jScrollPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jScrollPane1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jScrollPane1MouseClicked
+    public static void createExcel(ArrayList<KhachHang> list, String filePath) {
+        Workbook workbook = new XSSFWorkbook();
+        Sheet sheet = workbook.createSheet("Customer Data");
+
+        // Gộp ô cho tiêu đề
+        sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 7));
+
+        // Thêm dòng thông tin đầu tiên
+        Row infoRow = sheet.createRow(0);
+        Cell infoCell = infoRow.createCell(0);
+        infoCell.setCellValue("Danh sách khách hàng");
+
+        // Thiết lập style cho phần tiêu đề
+        CellStyle titleStyle = workbook.createCellStyle();
+        Font titleFont = workbook.createFont();
+        titleFont.setFontHeightInPoints((short) 18);
+        titleStyle.setFont(titleFont);
+        titleStyle.setAlignment(HorizontalAlignment.CENTER);
+        titleStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+
+        infoCell.setCellStyle(titleStyle);
+
+        Row row_date = sheet.createRow(1);
+        Cell cell_date = row_date.createCell(0);
+        cell_date.setCellValue("Ngày in: " + new Date());
+
+        // Tạo header row
+        Row headerRow = sheet.createRow(2);
+        String[] columns = {"Mã khách hàng", "Tên", "Điểm tích lũy", "Gới tính", "Ngày sinh", "Số điện thoại", "Hạng", "Địa chỉ"};
+
+        for (int i = 0; i < columns.length; i++) {
+            Cell cell = headerRow.createCell(i);
+            cell.setCellValue(columns[i]);
+        }
+
+        // Đổ dữ liệu từ ArrayList vào Excel
+        int rowNum = 3;
+        for (KhachHang khachHang : list) {
+            Row row = sheet.createRow(rowNum++);
+
+            row.createCell(0).setCellValue(khachHang.getMaKH());
+            row.createCell(1).setCellValue(khachHang.getTenKhachHang());
+            row.createCell(2).setCellValue(khachHang.getSdt());
+            row.createCell(3).setCellValue(khachHang.getDiemTichLuy());
+        }
+
+        // Ghi vào file
+        try (FileOutputStream outputStream = new FileOutputStream(filePath)) {
+            workbook.write(outputStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                workbook.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_capNhat;

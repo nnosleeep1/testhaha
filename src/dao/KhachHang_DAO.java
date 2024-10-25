@@ -52,23 +52,50 @@ public class KhachHang_DAO {
         }
         return list;
     }
+
     public KhachHang getKhachHang(String maKH) {
-    KhachHang khachHang = null;
-    try {
-        PreparedStatement ps = ConnectDB.conn.prepareStatement("SELECT * FROM KhachHang WHERE maKhachHang = ?");
-        ps.setString(1, maKH);
-        ResultSet rs = ps.executeQuery();
-        if (rs.next()) {
-            String maKhachHang = rs.getString("maKhachHang");
-            String tenKhachHang = rs.getString("tenKhachHang");
-            String sdt = rs.getString("sdt");
-            Long diemTichLuy = rs.getLong("diemTichLuy");
-            khachHang = new KhachHang(maKhachHang, tenKhachHang, sdt, diemTichLuy);
+        KhachHang khachHang = null;
+        try {
+            PreparedStatement ps = ConnectDB.conn.prepareStatement("SELECT * FROM KhachHang WHERE maKhachHang = ?");
+            ps.setString(1, maKH);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                String maKhachHang = rs.getString("maKhachHang");
+                String tenKhachHang = rs.getString("tenKhachHang");
+                String sdt = rs.getString("sdt");
+                Long diemTichLuy = rs.getLong("diemTichLuy");
+                khachHang = new KhachHang(maKhachHang, tenKhachHang, sdt, diemTichLuy);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-    } catch (SQLException e) {
-        e.printStackTrace();
+        return khachHang;
     }
-    return khachHang;
-}
+
+    public Boolean taoMoi(KhachHang kh) {
+        try {
+            String phoneCheck = "select * from Customer where phoneNumber = ?";
+            PreparedStatement phoneStatement = ConnectDB.conn.prepareStatement(phoneCheck);
+            phoneStatement.setString(1, kh.getSdt());
+            if (phoneStatement.executeQuery().next()) {
+                return false;
+            }
+
+            String sql = "INSERT INTO Customer (maKhachHang, tenKhachHang, sdt, diemTichLuy) "
+                    + "VALUES (?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement preparedStatement = ConnectDB.conn.prepareStatement(sql);
+
+            preparedStatement.setString(1, kh.getMaKH());
+            preparedStatement.setString(2, kh.getTenKhachHang());
+            preparedStatement.setString(3, kh.getSdt());
+            preparedStatement.setLong(5, kh.getDiemTichLuy());
+            int rowsAffected = preparedStatement.executeUpdate();
+
+            return rowsAffected > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
 }
