@@ -339,10 +339,10 @@ public class Customers_GUI extends javax.swing.JPanel {
     }//GEN-LAST:event_jScrollPane1MouseClicked
     public static void createExcel(ArrayList<KhachHang> list, String filePath) {
         Workbook workbook = new XSSFWorkbook();
-        Sheet sheet = workbook.createSheet("Customer Data");
+        Sheet sheet = workbook.createSheet("Dữ liệu khách hàng");
 
         // Gộp ô cho tiêu đề
-        sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 7));
+        sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 4));
 
         // Thêm dòng thông tin đầu tiên
         Row infoRow = sheet.createRow(0);
@@ -365,7 +365,7 @@ public class Customers_GUI extends javax.swing.JPanel {
 
         // Tạo header row
         Row headerRow = sheet.createRow(2);
-        String[] columns = {"Mã khách hàng", "Tên", "Điểm tích lũy", "Gới tính", "Ngày sinh", "Số điện thoại", "Hạng", "Địa chỉ"};
+        String[] columns = {"Mã khách hàng", "Tên", "Số điện thoại", "Điểm tích lũy"};
 
         for (int i = 0; i < columns.length; i++) {
             Cell cell = headerRow.createCell(i);
