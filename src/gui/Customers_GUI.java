@@ -150,6 +150,11 @@ public class Customers_GUI extends javax.swing.JPanel {
 
             }
         ));
+        tbl_khachHang.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbl_khachHangMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tbl_khachHang);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -381,14 +386,6 @@ public class Customers_GUI extends javax.swing.JPanel {
 
     private void jScrollPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jScrollPane1MouseClicked
         // TODO add your handling code here:int row = tbl_customer.getSelectedRow();
-        int index = tbl_khachHang.getSelectedRow();
-        String maKhachHang = tbl_khachHang.getValueAt(index, 0) + "";
-        KhachHang kh = KhachHang_DAO.getKhachHang(maKhachHang);
-        jtf_maKhachHang.setText(tbl_khachHang.getValueAt(index, 0) + "");
-        jtf_tenKhachHang.setText(tbl_khachHang.getValueAt(index, 1) + "");
-        jtf_sdt.setText(kh.getSdt());
-        jtf_diemTichLuy.setText(tbl_khachHang.getValueAt(index, 2) + "");
-        jtf_tongThanhToan.setText(tbl_khachHang.getValueAt(index, 3) + "");
     }//GEN-LAST:event_jScrollPane1MouseClicked
 
     private void jtf_maKhachHangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtf_maKhachHangActionPerformed
@@ -437,7 +434,6 @@ public class Customers_GUI extends javax.swing.JPanel {
         try {
             if (row != -1) {
                 KhachHang_DAO.capNhat(jtf_maKhachHang.getText(), getGiaTriForm());
-                taiThongTinLenBang(listKH);
 
             } else {
                 Notifications.getInstance().show(Notifications.Type.ERROR, "Chưa chọn khách hàng muốn cập nhật thông tin!");
@@ -456,6 +452,18 @@ public class Customers_GUI extends javax.swing.JPanel {
         lamMoiForm();
         jtf_soDienThoai.setText("");
     }//GEN-LAST:event_btn_lamMoiActionPerformed
+
+    private void tbl_khachHangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_khachHangMouseClicked
+        // TODO add your handling code here:
+        int index = tbl_khachHang.getSelectedRow();
+        String maKhachHang = tbl_khachHang.getValueAt(index, 0) + "";
+        KhachHang kh = KhachHang_DAO.getKhachHang(maKhachHang);
+        jtf_maKhachHang.setText(tbl_khachHang.getValueAt(index, 0) + "");
+        jtf_tenKhachHang.setText(tbl_khachHang.getValueAt(index, 1) + "");
+        jtf_sdt.setText(kh.getSdt());
+        jtf_diemTichLuy.setText(tbl_khachHang.getValueAt(index, 2) + "");
+        jtf_tongThanhToan.setText(tbl_khachHang.getValueAt(index, 3) + "");
+    }//GEN-LAST:event_tbl_khachHangMouseClicked
 
     public final void alterTable() {
         DefaultTableCellRenderer rightAlign = new DefaultTableCellRenderer();
