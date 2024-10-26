@@ -12,21 +12,16 @@ import java.util.logging.Logger;
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.sql.*;
-<<<<<<< HEAD
 import java.time.LocalDate;
-=======
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Month;
->>>>>>> 91396b7cf1c348dc8d1e77d2f009ea923aaa83fe
 
 /**
  *
  * @author lemin
  */
 public class KhachHang_DAO {
-
-<<<<<<< HEAD
     public Boolean create(KhachHang kh) {
         int n = 0;
         try {
@@ -42,8 +37,6 @@ public class KhachHang_DAO {
         return n > 0;
     }
 
-=======
->>>>>>> 91396b7cf1c348dc8d1e77d2f009ea923aaa83fe
     public ArrayList<KhachHang> getAllKhachHang() {
         ArrayList<KhachHang> list = new ArrayList<>();
 
@@ -62,9 +55,7 @@ public class KhachHang_DAO {
             Logger.getLogger(KhachHang_DAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return list;
-    }
-<<<<<<< HEAD
-    
+    }    
      public ArrayList<KhachHang> timKiemTheoMa(String maKhachHang) {
         ArrayList<KhachHang> listKH = new ArrayList<>();
         try {
@@ -85,20 +76,7 @@ public class KhachHang_DAO {
         }
         return listKH   ;
     }
-    
-    public KhachHang getKhachHang(String maKH) {
-    KhachHang khachHang = null;
-    try {
-        PreparedStatement ps = ConnectDB.conn.prepareStatement("SELECT * FROM KhachHang WHERE maKhachHang = ?");
-        ps.setString(1, maKH);
-        ResultSet rs = ps.executeQuery();
-        if (rs.next()) {
-            String maKhachHang = rs.getString("maKhachHang");
-            String tenKhachHang = rs.getString("tenKhachHang");
-            String sdt = rs.getString("sdt");
-            Long diemTichLuy = rs.getLong("diemTichLuy");
-            khachHang = new KhachHang(maKhachHang, tenKhachHang, sdt, diemTichLuy);
-=======
+   
 
     public static KhachHang getKhachHang(String maKH) {
         KhachHang khachHang = null;
@@ -115,7 +93,6 @@ public class KhachHang_DAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
->>>>>>> 91396b7cf1c348dc8d1e77d2f009ea923aaa83fe
         }
         return khachHang;
     }
@@ -166,7 +143,7 @@ public class KhachHang_DAO {
             preparedStatement.setString(1, kh.getMaKH());
             preparedStatement.setString(2, kh.getTenKhachHang());
             preparedStatement.setString(3, kh.getSdt());
-            preparedStatement.setLong(4, kh.getDiemTichLuy());
+            preparedStatement.setDouble(4, kh.getDiemTichLuy());
             int rowsAffected = preparedStatement.executeUpdate();
 
             return rowsAffected > 0;
@@ -183,7 +160,7 @@ public class KhachHang_DAO {
 
             preparedStatement.setString(1, newKh.getTenKhachHang());
             preparedStatement.setString(2, newKh.getSdt());
-            preparedStatement.setLong(3, newKh.getDiemTichLuy());
+            preparedStatement.setDouble(3, newKh.getDiemTichLuy());
             preparedStatement.setString(4, ma);
 
             int rowsAffected = preparedStatement.executeUpdate();
@@ -194,10 +171,5 @@ public class KhachHang_DAO {
         }
 
     }
-<<<<<<< HEAD
-    return khachHang;
 }
-=======
 
->>>>>>> 91396b7cf1c348dc8d1e77d2f009ea923aaa83fe
-}
