@@ -32,15 +32,27 @@ public class XuatXu {
         this.ten = ten;
     }
 
-	private String maXuatXu;
-	private String ten;
+    private String maXuatXu;
+    private String ten;
 
-	
     @Override
     public int hashCode() {
         int hash = 3;
         hash = 61 * hash + Objects.hashCode(this.getMaXuatXu());
         return hash;
+    }
+
+    public XuatXu(String maXuatXu, String ten) {
+        this.maXuatXu = maXuatXu;
+        this.ten = ten;
+    }
+
+    public XuatXu(String maXuatXu) {
+        this.maXuatXu = maXuatXu;
+    }
+
+    public XuatXu() {
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -58,10 +70,4 @@ public class XuatXu {
         return Objects.equals(this.getMaXuatXu(), other.getMaXuatXu());
     }
 
-    public XuatXu(String maXuatXu, String ten) {
-        this.maXuatXu = maXuatXu;
-        this.ten = ten;
-    }
-
-        
 }

@@ -88,10 +88,15 @@ public class GiamGia {
         this.loaiGiamGia = loaiGiamGia;
     }
 
+    public GiamGia(String maGiamGia) {
+        this.maGiamGia = maGiamGia;
+    }
+
+    
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 97 * hash + Objects.hashCode(this.maGiamGia);
+        hash = 97 * hash + Objects.hashCode(this.getMaGiamGia());
         return hash;
     }
 
@@ -107,8 +112,6 @@ public class GiamGia {
             return false;
         }
         final GiamGia other = (GiamGia) obj;
-        return Objects.equals(this.maGiamGia, other.maGiamGia);
+        return Objects.equals(this.getMaGiamGia(), other.getMaGiamGia());
     }
-
-	
 }

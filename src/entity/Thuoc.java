@@ -5,11 +5,13 @@ import java.util.Objects;
 
 public class Thuoc {
 
-   
+    public String getMaThuoc() {
+        return maThuoc;
+    }
 
-    /**
-     * @return the tenThuoc
-     */
+
+
+   
     public String getTenThuoc() {
         return tenThuoc;
     }
@@ -161,19 +163,6 @@ public class Thuoc {
         this.ncc = ncc;
     }
 
-    /**
-     * @return the giamGia
-     */
-    public GiamGia getGiamGia() {
-        return giamGia;
-    }
-
-    /**
-     * @param giamGia the giamGia to set
-     */
-    public void setGiamGia(GiamGia giamGia) {
-        this.giamGia = giamGia;
-    }
 
 	private String maThuoc;
 	private String tenThuoc;
@@ -187,7 +176,7 @@ public class Thuoc {
         private XuatXu xuatXu;
         private DonViTinh donViTinh;
         private NhaCungCap ncc;
-        private GiamGia giamGia;
+//        private GiamGia giamGia;
 
     @Override
     public int hashCode() {
@@ -211,7 +200,7 @@ public class Thuoc {
         return Objects.equals(this.maThuoc, other.maThuoc);
     }
 
-    public Thuoc(String maThuoc, String tenThuoc, double gia, LocalDate hsd, LocalDate nsx, double thue, int soLuongTon, String mota, LoaiThuoc loaiThuoc, XuatXu xuatXu, DonViTinh donViTinh, NhaCungCap ncc, GiamGia giamGia) {
+    public Thuoc(String maThuoc, String tenThuoc, double gia, LocalDate hsd, LocalDate nsx, double thue, int soLuongTon, String mota, LoaiThuoc loaiThuoc, XuatXu xuatXu, DonViTinh donViTinh, NhaCungCap ncc) {
         this.maThuoc = maThuoc;
         this.tenThuoc = tenThuoc;
         this.gia = gia;
@@ -224,8 +213,7 @@ public class Thuoc {
         this.xuatXu = xuatXu;
         this.donViTinh = donViTinh;
         this.ncc = ncc;
-        this.giamGia = giamGia;
+//        this.giamGia = giamGia;
     }
         
-
 }

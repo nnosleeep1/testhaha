@@ -5,6 +5,7 @@
 package main;
 
 import com.formdev.flatlaf.FlatIntelliJLaf;
+import gui.ThongKeThuoc_GUI;
 import com.formdev.flatlaf.FlatLightLaf;
 import com.formdev.flatlaf.IntelliJTheme;
 import gui.Customers_GUI;
@@ -14,6 +15,7 @@ import gui.NhaCungCap_GUI;
 import gui.Order_GUI;
 import gui.Products_GUI;
 import gui.Return_Order_GUI;
+import gui.ThongKeThuoc_GUI;
 import gui.event.EventMenuSelected;
 import gui.event.EventShowPopupMenu;
 import gui.main.MainForm;
@@ -22,11 +24,15 @@ import gui.menu.Menu;
 import gui.swing.MenuItem;
 import gui.swing.PopupMenu;
 import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import net.miginfocom.swing.MigLayout;
@@ -50,10 +56,14 @@ public class Main extends javax.swing.JFrame {
     public Main() {
         initComponents();
         init();
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        double width = screenSize.getWidth();
+        double height = screenSize.getHeight();
+
+        this.setSize((int) width, (int) height);
     }
 
     public void init() {
-        IntelliJTheme.setup(Main.class.getResourceAsStream("com/mallowigi/idea/actions/ActionGroup.class"));
         layout = new MigLayout("fill", "0[]0[100%, fill]0", "0[fill, top]0");
         bg.setLayout(layout);
         menu = new Menu();
@@ -65,7 +75,11 @@ public class Main extends javax.swing.JFrame {
             public void menuSelected(int menuIndex, int subMenuIndex) {
                 System.out.println("Menu index: " + menuIndex + "Sub Index: " + subMenuIndex);
                 if (menuIndex == 0) {
-                    main.showForm(new Products_GUI());
+                    try {
+                        main.showForm(new Products_GUI());
+                    } catch (UnsupportedLookAndFeelException ex) {
+                        Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 } else if (menuIndex == 1) {
                     if (subMenuIndex == 0) {
                         main.showForm(new Order_GUI());
@@ -73,8 +87,15 @@ public class Main extends javax.swing.JFrame {
                         main.showForm(new Return_Order_GUI());
 
                     }
-                } else if (menuIndex == 2) {    
+                } else if (menuIndex == 2) {
                     if (subMenuIndex == 0) {
+                        try {
+                            main.showForm(new ThongKeThuoc_GUI());
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                            // Show an error message to the user
+                            JOptionPane.showMessageDialog(Main.this, "Error loading ThongKeThuoc_GUI: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                        }
                     }
                 } else if (menuIndex == 3) {
                     main.showForm(new Customers_GUI());

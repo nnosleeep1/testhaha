@@ -32,12 +32,16 @@ public class DonViTinh {
         this.ten = ten;
     }
 
-	private String maDonViTinh;
-	private String ten;
+    private String maDonViTinh;
+    private String ten;
 
     public DonViTinh(String maDonViTinh, String ten) {
         this.maDonViTinh = maDonViTinh;
         this.ten = ten;
+    }
+
+    public DonViTinh(String maDonViTinh) {
+        this.maDonViTinh = maDonViTinh;
     }
 
     @Override
@@ -61,5 +65,4 @@ public class DonViTinh {
         final DonViTinh other = (DonViTinh) obj;
         return Objects.equals(this.maDonViTinh, other.maDonViTinh);
     }
-
 }

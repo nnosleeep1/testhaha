@@ -4,37 +4,35 @@ import java.util.Objects;
 
 public class LoaiThuoc {
 
-	private String maLoai;
-	private String tenLoai;
+	public String getMaLoai() {
+		return maLoai;
+	}
 
-    /**
-     * @return the maLoai
-     */
-    public String getMaLoai() {
-        return maLoai;
-    }
+	public void setMaLoai(String maLoai) {
+		this.maLoai = maLoai;
+	}
 
-    /**
-     * @param maLoai the maLoai to set
-     */
-    public void setMaLoai(String maLoai) {
+	public String getTenLoai() {
+		return tenLoai;
+	}
+
+	public void setTenLoai(String tenLoai) {
+		this.tenLoai = tenLoai;
+	}
+
+    public LoaiThuoc(String maLoai, String tenLoai) {
         this.maLoai = maLoai;
-    }
-
-    /**
-     * @return the tenLoai
-     */
-    public String getTenLoai() {
-        return tenLoai;
-    }
-
-    /**
-     * @param tenLoai the tenLoai to set
-     */
-    public void setTenLoai(String tenLoai) {
         this.tenLoai = tenLoai;
     }
 
+    public LoaiThuoc(String maLoai) {
+        this.maLoai = maLoai;
+    }
+        
+	private String maLoai;
+	private String tenLoai;
+
+ 
     @Override
     public int hashCode() {
         int hash = 5;
@@ -57,10 +55,5 @@ public class LoaiThuoc {
         return Objects.equals(this.maLoai, other.maLoai);
     }
 
-    public LoaiThuoc(String maLoai, String tenLoai) {
-        this.maLoai = maLoai;
-        this.tenLoai = tenLoai;
-    }
-
-       
+   
 }

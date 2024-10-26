@@ -22,7 +22,8 @@ public class ConnectDB {
         String password = "sapassword"; //123456aA@$
 
         conn = DriverManager.getConnection(url, user, password);
-
+        
+                
     }
 
     public static void disconnect() {
@@ -33,5 +34,5 @@ public class ConnectDB {
             }
         }
     }
-    
+
 }
