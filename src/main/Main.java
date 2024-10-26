@@ -21,6 +21,10 @@ import gui.menu.Menu;
 import gui.swing.MenuItem;
 import gui.swing.PopupMenu;
 import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Rectangle;
+import java.awt.Toolkit;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
@@ -31,7 +35,6 @@ import net.miginfocom.swing.MigLayout;
 import org.jdesktop.animation.timing.Animator;
 import org.jdesktop.animation.timing.TimingTarget;
 import org.jdesktop.animation.timing.TimingTargetAdapter;
-
 
 /**
  *
@@ -47,11 +50,17 @@ public class Main extends javax.swing.JFrame {
 
     public Main() {
         initComponents();
+        Rectangle r = this.getBounds();
         init();
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        double width = screenSize.getWidth();
+        double height = screenSize.getHeight();
+
+        this.setSize((int) width, (int) height);
     }
 
     public void init() {
-        
+
         layout = new MigLayout("fill", "0[]0[100%, fill]0", "0[fill, top]0");
         bg.setLayout(layout);
         menu = new Menu();
