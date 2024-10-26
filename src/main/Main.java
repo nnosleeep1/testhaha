@@ -25,6 +25,10 @@ import gui.swing.MenuItem;
 import gui.swing.PopupMenu;
 import java.awt.Component;
 import java.awt.Dimension;
+<<<<<<< HEAD
+=======
+import java.awt.Rectangle;
+>>>>>>> 91396b7cf1c348dc8d1e77d2f009ea923aaa83fe
 import java.awt.Toolkit;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
@@ -55,6 +59,7 @@ public class Main extends javax.swing.JFrame {
 
     public Main() {
         initComponents();
+        Rectangle r = this.getBounds();
         init();
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         double width = screenSize.getWidth();
@@ -64,6 +69,10 @@ public class Main extends javax.swing.JFrame {
     }
 
     public void init() {
+<<<<<<< HEAD
+=======
+
+>>>>>>> 91396b7cf1c348dc8d1e77d2f009ea923aaa83fe
         layout = new MigLayout("fill", "0[]0[100%, fill]0", "0[fill, top]0");
         bg.setLayout(layout);
         menu = new Menu();

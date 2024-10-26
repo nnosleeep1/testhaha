@@ -634,7 +634,11 @@ public class Employees_GUI extends javax.swing.JPanel {
     private void jtf_timTheoTenKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtf_timTheoTenKeyTyped
         tableModel.setRowCount(0);
 
+<<<<<<< HEAD
         List<NhanVien> danhSachNhanVien = nv_Dao.timKiemTheoTen(jtf_timTheoTen.getText().trim());
+=======
+        List<NhanVien> danhSachNhanVien = nv_Dao.timKiemTheoTen(jtf_timTheoTen.getText());
+>>>>>>> 91396b7cf1c348dc8d1e77d2f009ea923aaa83fe
 
         for (NhanVien nv : danhSachNhanVien) {
             Object obj[] = initObject(nv);
@@ -645,7 +649,11 @@ public class Employees_GUI extends javax.swing.JPanel {
     private void jtf_timTheoMaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtf_timTheoMaKeyTyped
         tableModel.setRowCount(0);
 
+<<<<<<< HEAD
         List<NhanVien> danhSachNhanVien = nv_Dao.timKiemTheoMa(jtf_timTheoMa.getText().trim());
+=======
+        List<NhanVien> danhSachNhanVien = nv_Dao.timKiemTheoMa(jtf_timTheoMa.getText());
+>>>>>>> 91396b7cf1c348dc8d1e77d2f009ea923aaa83fe
 
         for (NhanVien nv : danhSachNhanVien) {
             Object obj[] = initObject(nv);

@@ -4,6 +4,7 @@
  */
 package dao;
 
+<<<<<<< HEAD
 import com.itextpdf.text.log.Logger;
 import connect.ConnectDB;
 import entity.NhaCungCap;
@@ -35,18 +36,42 @@ public class NhaCungCap_DAO {
     }
 
     public ArrayList<NhaCungCap> getAllNhaCungCap() {
+=======
+import connect.ConnectDB;
+import entity.NhaCungCap;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+/**
+ *
+ * @author lemin
+ */
+public class NhaCungCap_DAO {
+
+    public static ArrayList<NhaCungCap> getAllNhaCungCap() {
+>>>>>>> 91396b7cf1c348dc8d1e77d2f009ea923aaa83fe
         ArrayList<NhaCungCap> list = new ArrayList<>();
 
         try {
             PreparedStatement ps = ConnectDB.conn.prepareStatement("Select * from NhaCungCap");
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
+<<<<<<< HEAD
                 String maNCC = rs.getString("maNCC");
                 String tenNCC = rs.getString("tenNCC");
+=======
+                String maKhachHang = rs.getString("maNCC");
+                String tenKhachHang = rs.getString("tenNCC");
+>>>>>>> 91396b7cf1c348dc8d1e77d2f009ea923aaa83fe
                 String diaChi = rs.getString("diaChi");
                 String email = rs.getString("email");
                 String sdt = rs.getString("sdt");
                 boolean trangThai = rs.getBoolean("trangThai");
+<<<<<<< HEAD
 
                 NhaCungCap ncc = new NhaCungCap(maNCC, tenNCC, diaChi, email, sdt, trangThai);
                 list.add(ncc);
@@ -54,10 +79,18 @@ public class NhaCungCap_DAO {
         } catch (SQLException ex) {
             java.util.logging.Logger.getLogger(NhanVien_DAO.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 
+=======
+                NhaCungCap ncc = new NhaCungCap(maKhachHang, tenKhachHang, diaChi, email, sdt, trangThai);
+                list.add(ncc);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(NhaCungCap_DAO.class.getName()).log(Level.SEVERE, null, ex);
+>>>>>>> 91396b7cf1c348dc8d1e77d2f009ea923aaa83fe
         }
         return list;
     }
 
+<<<<<<< HEAD
     public NhaCungCap getNhaCungCap(String maNCC) {
         try {
             PreparedStatement ps = ConnectDB.conn.prepareStatement("Select * from NhaCungCap where maNCC = ?");
@@ -65,10 +98,22 @@ public class NhaCungCap_DAO {
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 String tenNCC = rs.getString("tenNCC");
+=======
+    public static NhaCungCap getNhaCungCap(String maNCC) {
+        NhaCungCap nhaCungCap = null;
+        try {
+            PreparedStatement ps = ConnectDB.conn.prepareStatement("SELECT * FROM NhaCungCap WHERE maNCC = ?");
+            ps.setString(1, maNCC);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                String maKhachHang = rs.getString("maNCC");
+                String tenKhachHang = rs.getString("tenNCC");
+>>>>>>> 91396b7cf1c348dc8d1e77d2f009ea923aaa83fe
                 String diaChi = rs.getString("diaChi");
                 String email = rs.getString("email");
                 String sdt = rs.getString("sdt");
                 boolean trangThai = rs.getBoolean("trangThai");
+<<<<<<< HEAD
 
                 return new NhaCungCap(maNCC, tenNCC, diaChi, email, sdt, trangThai);
             }
@@ -206,5 +251,13 @@ public class NhaCungCap_DAO {
             java.util.logging.Logger.getLogger(NhanVien_DAO.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         return listNCC;
+=======
+                nhaCungCap = new NhaCungCap(maKhachHang, tenKhachHang, diaChi, email, sdt, trangThai);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return nhaCungCap;
+>>>>>>> 91396b7cf1c348dc8d1e77d2f009ea923aaa83fe
     }
 }
