@@ -32,7 +32,7 @@ public class XuatXu_DAO {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 String maXuatXu = rs.getString("maXuatXu");
-                String ten = rs.getString("ten");
+                String ten = rs.getString("tenXuatXu");
                 XuatXu xx = new XuatXu(maXuatXu, ten);
                 list.add(xx);
             }
@@ -49,7 +49,7 @@ public class XuatXu_DAO {
             ps.setString(1, maXuatXu);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                String ten = rs.getString("ten");
+                String ten = rs.getString("tenXuatXu");
                 xx = new XuatXu(maXuatXu, ten);
             }
         } catch (SQLException ex) {

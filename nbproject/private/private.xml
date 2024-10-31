@@ -12,12 +12,8 @@
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/NetBeansProjects/PharmaHome/src/dao/KhachHang_DAO.java</file>
-            <file>file:/D:/NetBeansProjects/PharmaHome/src/dao/XuatXu_DAO.java</file>
-            <file>file:/D:/NetBeansProjects/PharmaHome/src/entity/KhachHang.java</file>
-            <file>file:/D:/NetBeansProjects/PharmaHome/src/dao/Thuoc_DAO.java</file>
-            <file>file:/D:/NetBeansProjects/PharmaHome/src/gui/Products_GUI.java</file>
-            <file>file:/D:/NetBeansProjects/PharmaHome/src/gui/swing/MenuItem.java</file>
+            <file>file:/D:/NetBeansProjects/PharmaHome/src/gui/menu/Header.java</file>
+            <file>file:/D:/NetBeansProjects/PharmaHome/src/gui/LoginForm.java</file>
             <file>file:/D:/NetBeansProjects/PharmaHome/src/main/Main.java</file>
         </group>
     </open-files>

@@ -1,20 +1,19 @@
 package entity;
 
 public class ChiTietHoaDon {
-    
 
-	private int soLuong;
-	private double donGia;
-        private Thuoc thuoc;
-        private HoaDon hoaDon;
+    private int soLuong;
+    private double donGia;
+    private Thuoc thuoc;
+    private HoaDon hoaDon;
 
     public ChiTietHoaDon(Thuoc thuoc) {
         this.thuoc = thuoc;
     }
 
-	public double thanhTien() {
-		return this.donGia*this.soLuong;
-	}
+    public double thanhTien() {
+        return this.donGia * this.soLuong;
+    }
 
     public void setSoLuong(int soLuong) {
         this.soLuong = soLuong;

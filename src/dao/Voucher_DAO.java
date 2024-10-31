@@ -42,8 +42,9 @@ public class Voucher_DAO {
 
                 Date ngayKetThucDate = rs.getDate("ngayKetThuc");
                 LocalDate ngayKetThuc = ngayKetThucDate != null ? ngayKetThucDate.toLocalDate() : null;
+                double giaGiam = rs.getDouble("giaGiam");
 
-                Voucher voucher = new Voucher(maVoucher, tenVoucher, moTa, ngayApDung, ngayKetThuc);
+                Voucher voucher = new Voucher(maVoucher, tenVoucher, moTa, ngayApDung, ngayKetThuc,giaGiam);
                 list.add(voucher);
             }
         } catch (SQLException e) {
@@ -63,8 +64,8 @@ public class Voucher_DAO {
                 String moTa = rs.getString("moTa");
                 LocalDate ngayApDung = rs.getDate("ngayApDung").toLocalDate();
                 LocalDate ngayKetThuc = rs.getDate("ngayKetThuc").toLocalDate();
-
-                return new Voucher(maVoucher, tenVoucher, moTa, ngayApDung, ngayKetThuc);
+                double giaGiam = rs.getDouble("giaGiam");
+                return new Voucher(maVoucher, tenVoucher, moTa, ngayApDung, ngayKetThuc,giaGiam);
             }
         } catch (SQLException e) {
             e.printStackTrace();

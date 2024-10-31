@@ -37,9 +37,9 @@ public class Thuoc_DAO {
             ps.setDouble(6, thuoc.getThue());
             ps.setInt(7, thuoc.getSoLuongTon());
             ps.setString(8, thuoc.getMota());
-            ps.setString(9, thuoc.getLoaiThuoc().getMaLoai()); 
+            ps.setString(9, thuoc.getLoaiThuoc().getMaLoai());
             ps.setString(10, thuoc.getXuatXu().getMaXuatXu());
-             ps.setString(11, thuoc.getDonViTinh().getMaDonViTinh());
+            ps.setString(11, thuoc.getDonViTinh().getMaDonViTinh());
             ps.setString(12, thuoc.getNcc().getMaNCC()); // Giả sử NhaCungCap có phương thức getMaNhaCungCap()
             n = ps.executeUpdate();
         } catch (SQLException e) {
@@ -131,7 +131,7 @@ public class Thuoc_DAO {
         int n = 0;
         try {
             PreparedStatement ps = ConnectDB.conn.prepareStatement(
-                    "UPDATE Thuoc SET tenThuoc = ?, gia = ?, hsd = ?, nsx = ?, thue = ?, soLuongTon = ?, mota = ?, loaiThuoc = ?, xuatXu = ?, nhaCungCap = ? WHERE maThuoc = ?");
+                    "UPDATE Thuoc SET tenThuoc = ?, gia = ?, hsd = ?, nsx = ?, thue = ?, soLuongTon = ?, mota = ?, maLoai = ?, maXuatXu = ?, maNCC = ? WHERE maThuoc = ?");
             ps.setString(1, newThuoc.getTenThuoc());
             ps.setDouble(2, newThuoc.getGia());
             ps.setDate(3, java.sql.Date.valueOf(newThuoc.getHsd()));
@@ -202,6 +202,19 @@ public class Thuoc_DAO {
         return list;
     }
 
+    public boolean Xoa(String maThuoc) {
+        int n = 0;
+        try {
+            PreparedStatement ps = ConnectDB.conn.prepareStatement("Delete FROM Thuoc WHERE maThuoc = ?");
+            ps.setString(1, maThuoc);
+            n = ps.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return n > 0;
+    }
+
     // Phương thức tìm kiếm thuốc theo tên
     public ArrayList<Thuoc> timKiemTheoTen(String ten) {
         ArrayList<Thuoc> list = new ArrayList<>();
@@ -228,6 +241,61 @@ public class Thuoc_DAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+        return list;
+    }
+
+    public ArrayList<Thuoc> filter(String loaiThuoc, String xuatXu, String ten) {
+        ArrayList<Thuoc> list = new ArrayList<>();
+
+        try {
+            int index = 1;
+            StringBuilder query = new StringBuilder("SELECT t.maThuoc,t.tenThuoc,gia,hsd,nsx,soLuongTon,moTa,t.maLoai,t.maLoai,xx.maXuatXu,maDonViTinh,maNCC,thue FROM Thuoc t "
+                    + "JOIN XuatXu xx ON t.maXuatXu = xx.maXuatXu "
+                    + "JOIN LoaiThuoc lt ON lt.maLoai = t.maLoai WHERE 1=1 ");
+
+            if (ten.length() > 0) {
+                query.append("AND tenThuoc LIKE ? ");
+            }
+            if (xuatXu.length() > 0 && !xuatXu.equalsIgnoreCase("Tất cả")) {
+                query.append("AND tenXuatXu = ? ");
+            }
+            if (loaiThuoc.length() > 0 && !loaiThuoc.equalsIgnoreCase("Tất cả")) {
+                query.append("AND tenLoai = ? ");
+            }
+
+            PreparedStatement ps = ConnectDB.conn.prepareStatement(query.toString());
+
+            if (ten.length() > 0) {
+                ps.setString(index++, "%" + ten + "%");
+            }
+            if (xuatXu.length() > 0 && !xuatXu.equalsIgnoreCase("Tất cả")) {
+                ps.setString(index++, xuatXu);
+            }
+            if (loaiThuoc.length() > 0 && !loaiThuoc.equalsIgnoreCase("Tất cả")) {
+                ps.setString(index++, loaiThuoc);
+            }
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                String maThuoc = rs.getString("maThuoc");
+                String tenThuoc = rs.getString("tenThuoc");
+                double gia = rs.getDouble("gia");
+                Date hsd = rs.getDate("hsd");
+                Date nsx = rs.getDate("nsx");
+                double thue = rs.getDouble("thue");
+                int soLuongTon = rs.getInt("soLuongTon");
+                String mota = rs.getString("mota");
+                LoaiThuoc maLoai = new LoaiThuoc(rs.getString("maLoai"));
+                XuatXu maXuatXu = new XuatXu(rs.getString("maXuatXu"));
+                DonViTinh maDonViTinh = new DonViTinh(rs.getString("maDonViTinh"));
+                NhaCungCap maNCC = new NhaCungCap(rs.getString("maNCC"));
+
+                Thuoc thuoc = new Thuoc(maThuoc, tenThuoc, gia, hsd.toLocalDate(), nsx.toLocalDate(), thue, soLuongTon, mota, maLoai, maXuatXu, maDonViTinh, maNCC);
+                list.add(thuoc);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Thuoc_DAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return list;
     }

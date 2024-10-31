@@ -9,14 +9,26 @@ public class Voucher {
 	private String moTa;
 	private LocalDate ngayApDung;
 	private LocalDate ngayKetThuc;
+        private double giaGiam;
 
-    public Voucher(String maVoucher, String tenVoucher, String moTa, LocalDate ngayApDung, LocalDate ngayKetThuc) {
+    public double getGiaGiam() {
+        return giaGiam;
+    }
+
+    public void setGiaGiam(double giaGiam) {
+        this.giaGiam = giaGiam;
+    }
+
+    public Voucher(String maVoucher, String tenVoucher, String moTa, LocalDate ngayApDung, LocalDate ngayKetThuc, double giaGiam) {
         this.maVoucher = maVoucher;
         this.tenVoucher = tenVoucher;
         this.moTa = moTa;
         this.ngayApDung = ngayApDung;
         this.ngayKetThuc = ngayKetThuc;
+        this.giaGiam = giaGiam;
     }
+
+    
 
     public Voucher(String maVoucher) {
         this.maVoucher = maVoucher;

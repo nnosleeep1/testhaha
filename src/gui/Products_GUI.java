@@ -31,6 +31,7 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableModel;
 import java.sql.*;
+import java.util.List;
 import javax.swing.JOptionPane;
 import raven.toast.Notifications;
 import java.util.Random;
@@ -42,7 +43,6 @@ public class Products_GUI extends javax.swing.JPanel {
 
     public Products_GUI() throws UnsupportedLookAndFeelException {
         initComponents();
-        UIManager.setLookAndFeel(new FlatArcDarkIJTheme());
         thuoc_DAO = new Thuoc_DAO();
         model = new DefaultTableModel(new String[]{"Mã thuốc", "Tên Thuốc", "Loại", "Xuất xứ", "Giá", "Đơn vị", "Nsx", "Hsd", "Thuế"}, 0);
         tableThuoc.setModel(model);
@@ -65,14 +65,19 @@ public class Products_GUI extends javax.swing.JPanel {
         ArrayList<LoaiThuoc> listLoaiThuoc = new LoaiThuoc_DAO().getAllLoaiThuoc();
         ArrayList<XuatXu> listXuatXu = new XuatXu_DAO().getAllXuatXu();
         ArrayList<DonViTinh> listDonVi = new DonViTinh_DAO().getAllDonViTinh();
+        jcb_locLoaiThuoc.addItem("Tất cả");
+        jcb_locXuatXu.addItem("Tất cả");
+
         for (NhaCungCap ncc : listNCC) {
             jcb_NCC.addItem(ncc.getMaNCC());
         }
         for (LoaiThuoc lt : listLoaiThuoc) {
             jcb_loaiThuoc.addItem(lt.getMaLoai());
+            jcb_locLoaiThuoc.addItem(lt.getTenLoai());
         }
         for (XuatXu xuatXu : listXuatXu) {
             jcb_xuatXu.addItem(xuatXu.getMaXuatXu());
+            jcb_locXuatXu.addItem(xuatXu.getTen());
         }
         for (DonViTinh dvt : listDonVi) {
             jcb_donVi.addItem(dvt.getMaDonViTinh());
@@ -129,19 +134,19 @@ public class Products_GUI extends javax.swing.JPanel {
         jTable1 = new javax.swing.JTable();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jButton7 = new javax.swing.JButton();
+        loadThuoc = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         tableThuoc = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        searchforname = new javax.swing.JTextField();
+        jtf_timKiemTheoTen = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        searchforname1 = new javax.swing.JTextField();
+        jtf_timKiemTheoMa = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        jcb_locXuatXu = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
-        jButton6 = new javax.swing.JButton();
+        jcb_locLoaiThuoc = new javax.swing.JComboBox<>();
+        btn_loc = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         jtf_maThuoc = new javax.swing.JTextField();
@@ -206,10 +211,10 @@ public class Products_GUI extends javax.swing.JPanel {
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Bảng thông tin thuốc", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 16))); // NOI18N
         jPanel5.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
 
-        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Thuoc/reload.png"))); // NOI18N
-        jButton7.addActionListener(new java.awt.event.ActionListener() {
+        loadThuoc.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Thuoc/reload.png"))); // NOI18N
+        loadThuoc.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton7ActionPerformed(evt);
+                loadThuocActionPerformed(evt);
             }
         });
 
@@ -247,7 +252,7 @@ public class Products_GUI extends javax.swing.JPanel {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton7)
+                .addComponent(loadThuoc)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 629, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -259,7 +264,7 @@ public class Products_GUI extends javax.swing.JPanel {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(21, 21, 21)
-                .addComponent(jButton7)
+                .addComponent(loadThuoc)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGap(31, 31, 31)
@@ -300,32 +305,43 @@ public class Products_GUI extends javax.swing.JPanel {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel1.setText("Tìm kiếm theo tên");
 
-        searchforname.addActionListener(new java.awt.event.ActionListener() {
+        jtf_timKiemTheoTen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                searchfornameActionPerformed(evt);
+                jtf_timKiemTheoTenActionPerformed(evt);
+            }
+        });
+        jtf_timKiemTheoTen.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtf_timKiemTheoTenKeyTyped(evt);
             }
         });
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel2.setText("Tìm kiếm theo mã");
 
-        searchforname1.addActionListener(new java.awt.event.ActionListener() {
+        jtf_timKiemTheoMa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                searchforname1ActionPerformed(evt);
+                jtf_timKiemTheoMaActionPerformed(evt);
+            }
+        });
+        jtf_timKiemTheoMa.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtf_timKiemTheoMaKeyTyped(evt);
             }
         });
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel4.setText("Xuất xứ");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Việt Nam", "Canada", "Nhật", "Mỹ" }));
-
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel5.setText("Loại thuốc");
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Vitamin", "Kháng sinh", "Ngoài da", "Tiêu hóa" }));
-
-        jButton6.setText("Lọc");
+        btn_loc.setText("Lọc");
+        btn_loc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_locActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -337,23 +353,23 @@ public class Products_GUI extends javax.swing.JPanel {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(searchforname, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jtf_timKiemTheoTen, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(100, 100, 100)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(searchforname1, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jtf_timKiemTheoMa, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jcb_locXuatXu, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(100, 100, 100)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jcb_locLoaiThuoc, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(25, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btn_loc, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(265, 265, 265))
         );
         jPanel1Layout.setVerticalGroup(
@@ -363,11 +379,11 @@ public class Products_GUI extends javax.swing.JPanel {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(6, 6, 6)
-                        .addComponent(searchforname1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jtf_timKiemTheoMa, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, 0)
-                        .addComponent(searchforname, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jtf_timKiemTheoTen, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(7, 7, 7)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -375,10 +391,10 @@ public class Products_GUI extends javax.swing.JPanel {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(30, 30, 30)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                    .addComponent(jcb_locLoaiThuoc, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jcb_locXuatXu, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE))
+                .addComponent(btn_loc, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE))
         );
 
         add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 640, 200));
@@ -436,6 +452,11 @@ public class Products_GUI extends javax.swing.JPanel {
 
         btn_xoa.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btn_xoa.setText("Xóa");
+        btn_xoa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_xoaActionPerformed(evt);
+            }
+        });
 
         btn_them.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btn_them.setText("Thêm");
@@ -447,12 +468,22 @@ public class Products_GUI extends javax.swing.JPanel {
 
         btn_sua.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btn_sua.setText("Sửa");
+        btn_sua.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_suaActionPerformed(evt);
+            }
+        });
 
         btn_xuatExcel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btn_xuatExcel.setText("Xuất excel");
 
         btn_xoaTrang.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btn_xoaTrang.setText("Xóa trắng");
+        btn_xoaTrang.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_xoaTrangActionPerformed(evt);
+            }
+        });
 
         jLabel26.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel26.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -607,21 +638,22 @@ public class Products_GUI extends javax.swing.JPanel {
         add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 10, 490, 660));
     }// </editor-fold>//GEN-END:initComponents
 
-    private void searchforname1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchforname1ActionPerformed
+    private void jtf_timKiemTheoMaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtf_timKiemTheoMaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_searchforname1ActionPerformed
+    }//GEN-LAST:event_jtf_timKiemTheoMaActionPerformed
 
-    private void searchfornameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchfornameActionPerformed
+    private void jtf_timKiemTheoTenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtf_timKiemTheoTenActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_searchfornameActionPerformed
+    }//GEN-LAST:event_jtf_timKiemTheoTenActionPerformed
 
     private void jtf_giaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtf_giaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jtf_giaActionPerformed
 
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton7ActionPerformed
+    private void loadThuocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadThuocActionPerformed
+        model.setRowCount(0);
+        initTable();
+    }//GEN-LAST:event_loadThuocActionPerformed
 
     private void jtf_moTaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtf_moTaActionPerformed
         // TODO add your handling code here:
@@ -671,27 +703,105 @@ public class Products_GUI extends javax.swing.JPanel {
         NhaCungCap maNCC = new NhaCungCap(jcb_NCC.getSelectedItem() + "");
         Thuoc thuoc = new Thuoc(maThuoc, tenThuoc, gia, hsd, nsx, thue, soLuongTon, mota, maLoai, maXuatXu, maDonViTinh, maNCC);
         if (thuoc_DAO.create(thuoc)) {
-            Notifications.getInstance().show(Notifications.Type.SUCCESS, "Thêm nhân viên thành công!");
+            Notifications.getInstance().show(Notifications.Type.SUCCESS, "Thêm thuốc thành công!");
             Object[] obj = initObject(thuoc);
             model.addRow(obj);
 
         } else {
-            Notifications.getInstance().show(Notifications.Type.ERROR, "Thêm nhân viên thất bại!");
+            Notifications.getInstance().show(Notifications.Type.ERROR, "Thêm thuốc thất bại!");
 
         }
     }//GEN-LAST:event_btn_themActionPerformed
 
+    private void jtf_timKiemTheoTenKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtf_timKiemTheoTenKeyTyped
+        model.setRowCount(0);
+
+        List<Thuoc> listThuoc = thuoc_DAO.timKiemTheoTen(jtf_timKiemTheoTen.getText().trim());
+        for (Thuoc t : listThuoc) {
+            Object obj[] = initObject(t);
+            model.addRow(obj);
+        }
+    }//GEN-LAST:event_jtf_timKiemTheoTenKeyTyped
+
+    private void jtf_timKiemTheoMaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtf_timKiemTheoMaKeyTyped
+        model.setRowCount(0);
+
+        List<Thuoc> listThuoc = thuoc_DAO.timKiemTheoMa(jtf_timKiemTheoMa.getText().trim());
+        for (Thuoc t : listThuoc) {
+            Object obj[] = initObject(t);
+            model.addRow(obj);
+        }
+    }//GEN-LAST:event_jtf_timKiemTheoMaKeyTyped
+
+    private void btn_locActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_locActionPerformed
+        model.setRowCount(0);
+        ArrayList<Thuoc> listThuoc = thuoc_DAO.filter((jcb_locLoaiThuoc.getSelectedItem() + "").trim(), (jcb_locXuatXu.getSelectedItem() + "").trim(), jtf_timKiemTheoTen.getText().trim());
+        for (Thuoc t : listThuoc) {
+            Object[] obj = initObject(t);
+            model.addRow(obj);
+        }
+    }//GEN-LAST:event_btn_locActionPerformed
+
+    private void btn_xoaTrangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_xoaTrangActionPerformed
+        jtf_gia.setText("");
+        jtf_maThuoc.setText("");
+        jtf_moTa.setText("");
+        jtf_tenThuoc.setText("");
+        jtf_thue.setText("");
+        jtf_timKiemTheoMa.setText("");
+        jtf_timKiemTheoTen.setText("");
+        jtf_tonKho.setText("");
+    }//GEN-LAST:event_btn_xoaTrangActionPerformed
+
+    private void btn_suaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_suaActionPerformed
+        String maThuoc = jtf_maThuoc.getText();
+        String tenThuoc = jtf_tenThuoc.getText();
+        double gia = Double.valueOf(jtf_gia.getText());
+        LocalDate hsd = utilities.ConvertDate.convert(jDate_hsd.getDate());
+
+        LocalDate nsx = utilities.ConvertDate.convert(jDate_nsx.getDate());
+        double thue = Double.valueOf(jtf_thue.getText());
+        int soLuongTon = Integer.valueOf(jtf_tonKho.getText());
+        String mota = jtf_moTa.getText();
+        LoaiThuoc maLoai = new LoaiThuoc(jcb_loaiThuoc.getSelectedItem() + "");
+        XuatXu maXuatXu = new XuatXu(jcb_xuatXu.getSelectedItem() + "");
+        DonViTinh maDonViTinh = new DonViTinh(jcb_donVi.getSelectedItem() + "");
+
+        NhaCungCap maNCC = new NhaCungCap(jcb_NCC.getSelectedItem() + "");
+        Thuoc thuoc = new Thuoc(maThuoc, tenThuoc, gia, hsd, nsx, thue, soLuongTon, mota, maLoai, maXuatXu, maDonViTinh, maNCC);
+        if (thuoc_DAO.suaThuoc(maThuoc, thuoc)) {
+            Notifications.getInstance().show(Notifications.Type.SUCCESS, "Sửa thông tin thuốc thành công!");
+            model.insertRow(tableThuoc.getSelectedRow(), initObject(thuoc));
+            model.removeRow(tableThuoc.getSelectedRow() + 1);
+        } else {
+            Notifications.getInstance().show(Notifications.Type.ERROR, "Sửa thông tin thuốc thất bại!");
+        }
+    }//GEN-LAST:event_btn_suaActionPerformed
+
+    private void btn_xoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_xoaActionPerformed
+        String maThuoc = jtf_maThuoc.getText();
+        int choice = JOptionPane.showConfirmDialog(this, "Bạn có muốn xóa thông tin của thuốc này", "Xác nhận", JOptionPane.YES_NO_OPTION);
+        if (choice == JOptionPane.YES_OPTION) {
+            if (thuoc_DAO.Xoa(maThuoc)) {
+                
+                Notifications.getInstance().show(Notifications.Type.SUCCESS, "Xóa thông tin thuốc thành công");
+                model.removeRow(tableThuoc.getSelectedRow());
+            } else {
+                Notifications.getInstance().show(Notifications.Type.ERROR, "Xóa thông tin thuốc thất bại");
+
+            }
+        }
+
+    }//GEN-LAST:event_btn_xoaActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_loc;
     private javax.swing.JButton btn_sua;
     private javax.swing.JButton btn_them;
     private javax.swing.JButton btn_xoa;
     private javax.swing.JButton btn_xoaTrang;
     private javax.swing.JButton btn_xuatExcel;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
     private com.toedter.calendar.JDateChooser jDate_hsd;
     private com.toedter.calendar.JDateChooser jDate_nsx;
     private javax.swing.JLabel jLabel1;
@@ -722,15 +832,18 @@ public class Products_GUI extends javax.swing.JPanel {
     private javax.swing.JComboBox<String> jcb_NCC;
     private javax.swing.JComboBox<String> jcb_donVi;
     private javax.swing.JComboBox<String> jcb_loaiThuoc;
+    private javax.swing.JComboBox<String> jcb_locLoaiThuoc;
+    private javax.swing.JComboBox<String> jcb_locXuatXu;
     private javax.swing.JComboBox<String> jcb_xuatXu;
     private javax.swing.JTextField jtf_gia;
     private javax.swing.JTextField jtf_maThuoc;
     private javax.swing.JTextField jtf_moTa;
     private javax.swing.JTextField jtf_tenThuoc;
     private javax.swing.JTextField jtf_thue;
+    private javax.swing.JTextField jtf_timKiemTheoMa;
+    private javax.swing.JTextField jtf_timKiemTheoTen;
     private javax.swing.JTextField jtf_tonKho;
-    private javax.swing.JTextField searchforname;
-    private javax.swing.JTextField searchforname1;
+    private javax.swing.JButton loadThuoc;
     private javax.swing.JTable tableThuoc;
     // End of variables declaration//GEN-END:variables
 }

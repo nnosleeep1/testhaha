@@ -1,38 +1,38 @@
 package entity;
 
-
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class HoaDon {
 
-	private String maHD;
-	private LocalDate ngayLap;
-	private double tongTien;
-        private Voucher voucher;
-        private KhachHang khachHang;
-        private NhanVien nhanVien;
-        
+    private String maHD;
+    private LocalDate ngayLap;
+    private double tongTien;
+    private Voucher voucher;
+    private KhachHang khachHang;
+    private NhanVien nhanVien;
+    private ArrayList<ChiTietHoaDon> chiTietHoaDon;
 
-        @Override
-	public String toString() {
-		throw new UnsupportedOperationException();
-	}
+    public double tinhThanhTien() {
+        double result = 0;
+        for (ChiTietHoaDon CTHD : chiTietHoaDon) {
+            result += CTHD.thanhTien();
+        }
+        return result;
+    }
 
-	public void tinhThanhTien() {
-		throw new UnsupportedOperationException();
-	}
+    public double tinhTienThua() {
+        throw new UnsupportedOperationException();
+    }
 
-	public void tinhTienThua() {
-		throw new UnsupportedOperationException();
-	}
+    public double tinhThue() {
+        throw new UnsupportedOperationException();
+    }
 
-	public void tinhThue() {
-		throw new UnsupportedOperationException();
-	}
-
-	public void TinhTongTienTra() {
-		throw new UnsupportedOperationException();
-	}
+    public double TinhTongTienTra() {
+        this.tongTien = tinhThanhTien() + (this.voucher != null ? 0 : this.voucher.getGiaGiam());
+        return this.tongTien;
+    }
 
     public HoaDon(String maHD, LocalDate ngayLap, double tongTien, Voucher voucher, KhachHang khachHang, NhanVien nhanVien) {
         this.maHD = maHD;
@@ -42,6 +42,7 @@ public class HoaDon {
         this.khachHang = khachHang;
         this.nhanVien = nhanVien;
     }
+    
 
     public HoaDon(String maHD) {
         this.maHD = maHD;

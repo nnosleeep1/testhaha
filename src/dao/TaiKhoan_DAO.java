@@ -18,8 +18,8 @@ public class TaiKhoan_DAO {
             ps.setString(1, tk.getTen());
             ps.setString(2, tk.getPassword());
             ps.setBoolean(3, tk.isTrangThai());
-            ps.setString(4, tk.getVaiTro().toString()); 
-            ps.setString(5, tk.getNhanVien().toString()); 
+            ps.setString(4, tk.getVaiTro().getMaVaiTro()); 
+            ps.setString(5, tk.getNhanVien().getMaNhanVien()); 
             n = ps.executeUpdate();
         } catch (SQLException e) {
             Logger.getLogger(TaiKhoan_DAO.class.getName()).log(Level.SEVERE, null, e);

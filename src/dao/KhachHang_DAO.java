@@ -22,6 +22,7 @@ import java.time.Month;
  * @author lemin
  */
 public class KhachHang_DAO {
+
     public Boolean create(KhachHang kh) {
         int n = 0;
         try {
@@ -55,8 +56,11 @@ public class KhachHang_DAO {
             Logger.getLogger(KhachHang_DAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return list;
-    }    
-     public ArrayList<KhachHang> timKiemTheoMa(String maKhachHang) {
+    }
+
+   
+
+    public ArrayList<KhachHang> timKiemTheoMa(String maKhachHang) {
         ArrayList<KhachHang> listKH = new ArrayList<>();
         try {
             PreparedStatement ps = ConnectDB.conn.prepareStatement("select * from KhachHang where maKhachHang = ?");
@@ -74,11 +78,28 @@ public class KhachHang_DAO {
         } catch (SQLException ex) {
             Logger.getLogger(NhanVien_DAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return listKH   ;
+        return listKH;
     }
-   
 
-    public static KhachHang getKhachHang(String maKH) {
+    public KhachHang getKhachHangSDT(String soDienThoai) {
+        KhachHang khachHang = null;
+        try {
+            PreparedStatement ps = ConnectDB.conn.prepareStatement("SELECT * FROM KhachHang WHERE sdt = ?");
+            ps.setString(1, soDienThoai);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                String maKhachHang = rs.getString("maKhachHang");
+                String tenKhachHang = rs.getString("tenKhachHang");
+                String sdt = rs.getString("sdt");
+                Long diemTichLuy = rs.getLong("diemTichLuy");
+                khachHang = new KhachHang(maKhachHang, tenKhachHang, sdt, diemTichLuy);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return khachHang;
+    }
+      public static KhachHang getKhachHang(String maKH) {
         KhachHang khachHang = null;
         try {
             PreparedStatement ps = ConnectDB.conn.prepareStatement("SELECT * FROM KhachHang WHERE maKhachHang = ?");
@@ -172,4 +193,3 @@ public class KhachHang_DAO {
 
     }
 }
-

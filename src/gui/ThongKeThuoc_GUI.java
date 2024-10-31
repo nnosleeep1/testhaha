@@ -421,65 +421,65 @@ public class ThongKeThuoc_GUI extends javax.swing.JPanel {
     private void jTextField7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField7ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField7ActionPerformed
-    public void updateTableData() {
-        Thuoc_DAO ds = new Thuoc_DAO();
-        List<Thuoc> list = ds.getAllThuoc();
-        System.out.println(list);
-        // Assuming you have a JTable and a DefaultTableModel
-;
-        model.setRowCount(0);  // Clear existing data
-
-        for (Thuoc thuoc : list) {
-            Object[] row = {
-                thuoc.getMaThuoc(),
-                thuoc.getTenThuoc(),
-                "100", // assuming this is some fixed value for now
-                thuoc.getThue() + "",
-                thuoc.getGia() + "",
-                "1000000" // another fixed value
-            };
-            model.addRow(row); // Add row to the model
-
-        }
-    }
-
-    public static JFreeChart createChart() {
-        JFreeChart barChart = ChartFactory.createBarChart(
-                "Biểu đồ 10 loại thuốc có doanh thu cao nhất",
-                "Tên thuốc", "Doanh thu",
-                createDataset(), PlotOrientation.VERTICAL, false, false, false);
-        return barChart;
-    }
-
-    private static CategoryDataset createDataset() {
-        final DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        ArrayList<ThuocvaDoanhThu> topThuocList = new ArrayList<>();
-
-        // Lấy danh sách top 10 thuốc có doanh thu cao nhất
-        ChiTietHoaDon_DAO chiTietHoaDonDAO = new ChiTietHoaDon_DAO();
-        //topThuocList = chiTietHoaDonDAO.getTop10ThuocCoDoanhThuCaoNhat();
-        topThuocList = chiTietHoaDonDAO.getTop10ThuocCoDoanhThuCaoNhat();
-        // Thêm dữ liệu vào dataset
-        for (int i = 0; i < topThuocList.size(); i++) {
-            ThuocvaDoanhThu a = topThuocList.get(i);
-            String tenThuoc = a.getThuoc().getTenThuoc(); // Lấy tên thuốc
-            double doanhThu = a.getDoanhThu(); // Giả sử có phương thức getDoanhThu()
-
-            // Thêm giá trị doanh thu vào dataset
-        }
-
-        return dataset;
-    }
-
-    private void drawChart() {
-        JFreeChart chart = createChart(); // Tạo biểu đồ từ phương thức createChart
-        ChartPanel chartPanel = new ChartPanel(chart); // Tạo ChartPanel từ biểu đồ
-        chartPanel.setPreferredSize(new java.awt.Dimension(jPanelBieuDo.getWidth(), jPanelBieuDo.getHeight())); // Đặt kích thước cho ChartPanel
-        jPanelBieuDo.setLayout(new java.awt.BorderLayout()); // Đặt layout cho jPanel4
-        jPanelBieuDo.add(chartPanel, java.awt.BorderLayout.CENTER); // Thêm ChartPanel vào jPanel4
-        jPanelBieuDo.validate(); // Cập nhật lại jPanel4
-        jPanelBieuDo.setPreferredSize(new java.awt.Dimension(100, 330));
-    }
+//    public void updateTableData() {
+//        Thuoc_DAO ds = new Thuoc_DAO();
+//        List<Thuoc> list = ds.getAllThuoc();
+//        System.out.println(list);
+//        // Assuming you have a JTable and a DefaultTableModel
+//;
+//        model.setRowCount(0);  // Clear existing data
+//
+//        for (Thuoc thuoc : list) {
+//            Object[] row = {
+//                thuoc.getMaThuoc(),
+//                thuoc.getTenThuoc(),
+//                "100", // assuming this is some fixed value for now
+//                thuoc.getThue() + "",
+//                thuoc.getGia() + "",
+//                "1000000" // another fixed value
+//            };
+//            model.addRow(row); // Add row to the model
+//
+//        }
+//    }
+//
+//    public static JFreeChart createChart() {
+//        JFreeChart barChart = ChartFactory.createBarChart(
+//                "Biểu đồ 10 loại thuốc có doanh thu cao nhất",
+//                "Tên thuốc", "Doanh thu",
+//                createDataset(), PlotOrientation.VERTICAL, false, false, false);
+//        return barChart;
+//    }
+//
+//    private static CategoryDataset createDataset() {
+//        final DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+//        ArrayList<ThuocvaDoanhThu> topThuocList = new ArrayList<>();
+//
+//        // Lấy danh sách top 10 thuốc có doanh thu cao nhất
+//        ChiTietHoaDon_DAO chiTietHoaDonDAO = new ChiTietHoaDon_DAO();
+//        //topThuocList = chiTietHoaDonDAO.getTop10ThuocCoDoanhThuCaoNhat();
+//        topThuocList = chiTietHoaDonDAO.getTop10ThuocCoDoanhThuCaoNhat();
+//        // Thêm dữ liệu vào dataset
+//        for (int i = 0; i < topThuocList.size(); i++) {
+//            ThuocvaDoanhThu a = topThuocList.get(i);
+//            String tenThuoc = a.getThuoc().getTenThuoc(); // Lấy tên thuốc
+//            double doanhThu = a.getDoanhThu(); // Giả sử có phương thức getDoanhThu()
+//
+//            // Thêm giá trị doanh thu vào dataset
+//        }
+//
+//        return dataset;
+//    }
+//
+//    private void drawChart() {
+//        JFreeChart chart = createChart(); // Tạo biểu đồ từ phương thức createChart
+//        ChartPanel chartPanel = new ChartPanel(chart); // Tạo ChartPanel từ biểu đồ
+//        chartPanel.setPreferredSize(new java.awt.Dimension(jPanelBieuDo.getWidth(), jPanelBieuDo.getHeight())); // Đặt kích thước cho ChartPanel
+//        jPanelBieuDo.setLayout(new java.awt.BorderLayout()); // Đặt layout cho jPanel4
+//        jPanelBieuDo.add(chartPanel, java.awt.BorderLayout.CENTER); // Thêm ChartPanel vào jPanel4
+//        jPanelBieuDo.validate(); // Cập nhật lại jPanel4
+//        jPanelBieuDo.setPreferredSize(new java.awt.Dimension(100, 330));
+//    }
     public static void main(String[] args) {
          
     }
