@@ -14,6 +14,8 @@
         <group>
             <file>file:/D:/NetBeansProjects/PharmaHome/src/gui/menu/Header.java</file>
             <file>file:/D:/NetBeansProjects/PharmaHome/src/gui/LoginForm.java</file>
+            <file>file:/D:/NetBeansProjects/PharmaHome/src/message/Message.java</file>
+            <file>file:/D:/NetBeansProjects/PharmaHome/src/gui/notifications/Notifications.java</file>
             <file>file:/D:/NetBeansProjects/PharmaHome/src/main/Main.java</file>
         </group>
     </open-files>

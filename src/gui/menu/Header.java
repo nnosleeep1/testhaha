@@ -4,7 +4,26 @@
  */
 package gui.menu;
 
+import dao.Thuoc_DAO;
+import entity.Thuoc;
+import glasspanepopup.DefaultOption;
+import gui.notifications.Notifications;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Point;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
+import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
+import javax.swing.border.EmptyBorder;
+import jdk.jshell.Diag;
 
 /**
  *
@@ -12,12 +31,19 @@ import java.awt.event.ActionListener;
  */
 public class Header extends javax.swing.JPanel {
 
-    public Header(String ten, String vaiTro) {
+    private JFrame mainFrame;
+    private JPopupMenu expiredMedsPopup;
+
+    public Header(String ten, String vaiTro, JFrame mainFrame) {
+        this.mainFrame = mainFrame;
         initComponents();
         lbUserName.setText(ten);
         lbRole.setText(vaiTro);
+        glasspanepopup.GlassPanePopup.install(mainFrame);
+
     }
-    public void addMenuEvent(ActionListener event){
+
+    public void addMenuEvent(ActionListener event) {
         cdmMenu.addActionListener(event);
     }
 
@@ -35,7 +61,7 @@ public class Header extends javax.swing.JPanel {
         lbUserName = new javax.swing.JLabel();
         lbRole = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
-        jLabel1 = new javax.swing.JLabel();
+        cmd = new sample.message.Button();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setForeground(new java.awt.Color(127, 127, 127));
@@ -58,7 +84,12 @@ public class Header extends javax.swing.JPanel {
 
         jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/bell.png"))); // NOI18N
+        cmd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/bell.png"))); // NOI18N
+        cmd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmdActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -66,9 +97,9 @@ public class Header extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(cdmMenu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 350, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(26, 26, 26)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 354, Short.MAX_VALUE)
+                .addComponent(cmd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -81,8 +112,15 @@ public class Header extends javax.swing.JPanel {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addComponent(cdmMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(cmd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(pic, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lbUserName)
@@ -90,12 +128,6 @@ public class Header extends javax.swing.JPanel {
                         .addComponent(lbRole))
                     .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(16, 16, 16)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(cdmMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -103,10 +135,44 @@ public class Header extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_cdmMenuActionPerformed
 
+    private void cmdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdActionPerformed
+        glasspanepopup.GlassPanePopup.showPopup(new Notifications(), new DefaultOption() {
+            @Override
+            public float opacity() {
+                return 0;
+            }
+
+        });
+    }//GEN-LAST:event_cmdActionPerformed
+
+    private void showExpiredMedications() {
+        // Clear previous items
+        expiredMedsPopup.removeAll();
+
+        // Retrieve list of expired medications from the DAO
+        ArrayList<Thuoc> listThuocHetHan = new Thuoc_DAO().getThuocHetHan();
+
+        // Customize and display each expired medication as a styled label in the popup menu
+        for (Thuoc med : listThuocHetHan) {
+            JLabel label = new JLabel(med.getTenThuoc() + " - Expired on: " + med.getHsd());
+            label.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+            label.setOpaque(true);
+            label.setBackground(new Color(245, 245, 245));
+            label.setForeground(new Color(100, 100, 100));
+            label.setHorizontalAlignment(SwingConstants.LEFT);
+            label.setBorder(new EmptyBorder(5, 10, 5, 10)); // Padding around text
+            label.setPreferredSize(new Dimension(250, 30));  // Fixed width for consistency
+
+            expiredMedsPopup.add(label);
+        }
+
+        expiredMedsPopup.show(cdmMenu, cdmMenu.getWidth() + 800, cdmMenu.getHeight());
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private gui.swing.Button cdmMenu;
-    private javax.swing.JLabel jLabel1;
+    private sample.message.Button cmd;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel lbRole;
     private javax.swing.JLabel lbUserName;

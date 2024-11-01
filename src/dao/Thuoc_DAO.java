@@ -299,5 +299,32 @@ public class Thuoc_DAO {
         }
         return list;
     }
+    public ArrayList<Thuoc> getThuocHetHan() {
+        ArrayList<Thuoc> list = new ArrayList<>();
+        try {
+            PreparedStatement ps = ConnectDB.conn.prepareStatement("SELECT * FROM Thuoc WHERE hsd <= getDate()");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                String maThuoc = rs.getString("maThuoc");
+                String tenThuoc = rs.getString("tenThuoc");
+                double gia = rs.getDouble("gia");
+                Date hsd = rs.getDate("hsd");
+                Date nsx = rs.getDate("nsx");
+                double thue = rs.getDouble("thue");
+                int soLuongTon = rs.getInt("soLuongTon");
+                String mota = rs.getString("mota");
+                LoaiThuoc maLoai = new LoaiThuoc(rs.getString("maLoai"));
+                XuatXu maXuatXu = new XuatXu(rs.getString("maXuatXu"));
+                DonViTinh maDonViTinh = new DonViTinh(rs.getString("maDonViTinh"));
+
+                NhaCungCap maNCC = new NhaCungCap(rs.getString("maNCC"));
+                Thuoc thuoc = new Thuoc(maThuoc, tenThuoc, gia, hsd.toLocalDate(), nsx.toLocalDate(), thue, soLuongTon, mota, maLoai, maXuatXu, maDonViTinh, maNCC);
+                list.add(thuoc);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
 
 }

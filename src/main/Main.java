@@ -73,6 +73,7 @@ public class Main extends javax.swing.JFrame {
     public Main() throws SQLException {
         initComponents();
         loginForm = new LoginForm();
+        
 
         setSize(new Dimension(1350, 768));
         setTitle("Pharmahome");
@@ -102,7 +103,7 @@ public class Main extends javax.swing.JFrame {
         bg.setLayout(layout);
         menu = new Menu();
         initHeaderLabel();
-        header = new Header(nhanVien.getTenNhanVien(),vaiTro.getTen());
+        header = new Header(nhanVien.getTenNhanVien(),vaiTro.getTen(),this);
         main = new MainForm();
 
         menu.addEvent(new EventMenuSelected() {
