@@ -37,10 +37,6 @@ import net.miginfocom.swing.MigLayout;
  */
 public class Notifications extends javax.swing.JPanel {
 
-    /**
-     * Creates new form Notifications
-     *
-     */
     private JPopupMenu expiredMedsPopup;
 
     public Notifications() {
@@ -54,9 +50,8 @@ public class Notifications extends javax.swing.JPanel {
         sb.setUI(new ModernScrollBarUI());
         scroll.getViewport().setOpaque(false);
         scroll.setViewportBorder(null);
-        panel.setLayout(new MigLayout("inset 0, fillx, wrap", "[fill]"));
+        panel.setLayout(new MigLayout("insets 0, fillx, wrap", "[fill]"));
         showExpiredMedications();
-
     }
 
     protected void paintComponent(Graphics g) {
@@ -69,19 +64,32 @@ public class Notifications extends javax.swing.JPanel {
     }
 
     private void showExpiredMedications() {
-        panel.removeAll();
-
         ArrayList<Thuoc> listThuocHetHan = new Thuoc_DAO().getThuocHetHan();
-
-        panel.setLayout(new javax.swing.BoxLayout(panel, javax.swing.BoxLayout.Y_AXIS));
-
         for (Thuoc med : listThuocHetHan) {
             JLabel label = new JLabel();
             long p2 = ChronoUnit.DAYS.between(med.getHsd(), LocalDate.now());
-            panel.add(new Item(med.getMaThuoc(), med.getTenThuoc(),"Vừa hết hạn "+ p2 + " ngày"));
+            panel.add(new Item(med.getMaThuoc(), med.getTenThuoc(), "Vừa hết hạn " + p2 + " ngày"), "growx, wrap");
+            panel.add(new Item(med.getMaThuoc(), med.getTenThuoc(), "Vừa hết hạn " + p2 + " ngày"), "growx, wrap");
+            panel.add(new Item(med.getMaThuoc(), med.getTenThuoc(), "Vừa hết hạn " + p2 + " ngày"), "growx, wrap");
+            panel.add(new Item(med.getMaThuoc(), med.getTenThuoc(), "Vừa hết hạn " + p2 + " ngày"), "growx, wrap");
+            panel.add(new Item(med.getMaThuoc(), med.getTenThuoc(), "Vừa hết hạn " + p2 + " ngày"), "growx, wrap");
+            panel.add(new Item(med.getMaThuoc(), med.getTenThuoc(), "Vừa hết hạn " + p2 + " ngày"), "growx, wrap");
+            panel.add(new Item(med.getMaThuoc(), med.getTenThuoc(), "Vừa hết hạn " + p2 + " ngày"), "growx, wrap");
+            panel.add(new Item(med.getMaThuoc(), med.getTenThuoc(), "Vừa hết hạn " + p2 + " ngày"), "growx, wrap");
+            panel.add(new Item(med.getMaThuoc(), med.getTenThuoc(), "Vừa hết hạn " + p2 + " ngày"), "growx, wrap");
+            panel.add(new Item(med.getMaThuoc(), med.getTenThuoc(), "Vừa hết hạn " + p2 + " ngày"), "growx, wrap");
+            panel.add(new Item(med.getMaThuoc(), med.getTenThuoc(), "Vừa hết hạn " + p2 + " ngày"), "growx, wrap");
+            panel.add(new Item(med.getMaThuoc(), med.getTenThuoc(), "Vừa hết hạn " + p2 + " ngày"), "growx, wrap");
+            panel.add(new Item(med.getMaThuoc(), med.getTenThuoc(), "Vừa hết hạn " + p2 + " ngày"), "growx, wrap");
+            panel.add(new Item(med.getMaThuoc(), med.getTenThuoc(), "Vừa hết hạn " + p2 + " ngày"), "growx, wrap");
+            panel.add(new Item(med.getMaThuoc(), med.getTenThuoc(), "Vừa hết hạn " + p2 + " ngày"), "growx, wrap");
+            panel.add(new Item(med.getMaThuoc(), med.getTenThuoc(), "Vừa hết hạn " + p2 + " ngày"), "growx, wrap");
+            panel.add(new Item(med.getMaThuoc(), med.getTenThuoc(), "Vừa hết hạn " + p2 + " ngày"), "growx, wrap");
+            panel.add(new Item(med.getMaThuoc(), med.getTenThuoc(), "Vừa hết hạn " + p2 + " ngày"), "growx, wrap");
+            panel.add(new Item(med.getMaThuoc(), med.getTenThuoc(), "Vừa hết hạn " + p2 + " ngày"), "growx, wrap");
+            panel.add(new Item(med.getMaThuoc(), med.getTenThuoc(), "Vừa hết hạn " + p2 + " ngày"), "growx, wrap");
         }
 
-        // Cập nhật lại panel và scroll để hiển thị các thành phần mới
         panel.revalidate();
         panel.repaint();
         scroll.revalidate();
@@ -113,11 +121,11 @@ public class Notifications extends javax.swing.JPanel {
         panel.setLayout(panelLayout);
         panelLayout.setHorizontalGroup(
             panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 282, Short.MAX_VALUE)
+            .addGap(0, 239, Short.MAX_VALUE)
         );
         panelLayout.setVerticalGroup(
             panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 548, Short.MAX_VALUE)
+            .addGap(0, 449, Short.MAX_VALUE)
         );
 
         scroll.setViewportView(panel);
@@ -127,23 +135,20 @@ public class Notifications extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(15, 15, 15)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(15, 15, 15)
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(scroll, javax.swing.GroupLayout.PREFERRED_SIZE, 282, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(17, Short.MAX_VALUE))
+                    .addComponent(jLabel1)
+                    .addComponent(scroll, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addComponent(scroll)
-                .addGap(47, 47, 47))
+                .addGap(26, 26, 26)
+                .addComponent(scroll, javax.swing.GroupLayout.PREFERRED_SIZE, 374, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(26, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 

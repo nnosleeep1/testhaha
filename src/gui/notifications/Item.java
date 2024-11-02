@@ -36,6 +36,7 @@ public class Item extends javax.swing.JPanel {
         lbl_tenThuoc = new javax.swing.JLabel();
 
         setForeground(new java.awt.Color(165, 165, 165));
+        setOpaque(false);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel1.setText("Mã Thuốc");
@@ -43,7 +44,6 @@ public class Item extends javax.swing.JPanel {
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel2.setText("Tên thuốc");
 
-        lbl_hetHan.setForeground(new java.awt.Color(165, 165, 165));
         lbl_hetHan.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbl_hetHan.setText("1 ngày trước");
 

@@ -186,6 +186,30 @@ public class NhanVien_DAO {
         }
         return listNV;
     }
+    public NhanVien timKiemTheoMa1 (String maNhanVien) {
+        try {
+            PreparedStatement ps = ConnectDB.conn.prepareStatement("select * from NhanVien where maNhanVien like ?");
+            ps.setString(1, "%" + maNhanVien + "%");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                String maNV = rs.getString("maNhanVien");
+                String tenNhanVien = rs.getString("tenNhanVien");
+                String email = rs.getString("email");
+                String diaChi = rs.getString("diaChi");
+                String sdt = rs.getString("sdt");
+                String cccd = rs.getString("cccd");
+                boolean trangThai = rs.getBoolean("trangThai");
+                Date ngayVaoLam = rs.getDate("ngayVaoLam");
+                LocalDate nvl = LocalDate.of(ngayVaoLam.getYear(), ngayVaoLam.getMonth() + 1, ngayVaoLam.getDate());
+                NhanVien nv = new NhanVien(maNV, tenNhanVien, email, sdt, diaChi, cccd, trangThai, nvl);
+                return nv;
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(NhanVien_DAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
 
     public ArrayList<NhanVien> timKiemTheoTen(String ten) {
         ArrayList<NhanVien> listNV = new ArrayList<>();

@@ -46,7 +46,7 @@ public class HoaDon_DAO {
                 double tongTien = rs.getDouble("tongTien");
 
                 String maVoucher = rs.getString("maVoucher");
-                String maKhachHang = rs.getString("maKhachHang");
+                String maKhachHang = rs.getString("maKH");
                 String maNhanVien = rs.getString("maNhanVien");
 
                 Voucher voucher = new Voucher_DAO().getVoucher(maVoucher);  // Lấy thông tin Voucher

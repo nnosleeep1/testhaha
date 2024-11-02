@@ -118,7 +118,7 @@ public class Main extends javax.swing.JFrame {
                     }
                 } else if (menuIndex == 1) {
                     if (subMenuIndex == 0) {
-                        main.showForm(new Order_GUI());
+                        main.showForm(new Order_GUI(tk));
                     } else if (subMenuIndex == 1) {
                         main.showForm(new Return_Order_GUI());
 

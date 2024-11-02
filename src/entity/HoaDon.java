@@ -11,11 +11,19 @@ public class HoaDon {
     private Voucher voucher;
     private KhachHang khachHang;
     private NhanVien nhanVien;
-    private ArrayList<ChiTietHoaDon> chiTietHoaDon;
+    private ArrayList<ChiTietHoaDon> listCTHD;
+
+    public ArrayList<ChiTietHoaDon> getListCTHD() {
+        return listCTHD;
+    }
+
+    public void setListCTHD(ArrayList<ChiTietHoaDon> listCTHD) {
+        this.listCTHD = listCTHD;
+    }
 
     public double tinhThanhTien() {
         double result = 0;
-        for (ChiTietHoaDon CTHD : chiTietHoaDon) {
+        for (ChiTietHoaDon CTHD : listCTHD) {
             result += CTHD.thanhTien();
         }
         return result;
@@ -30,7 +38,7 @@ public class HoaDon {
     }
 
     public double TinhTongTienTra() {
-        this.tongTien = tinhThanhTien() + (this.voucher != null ? 0 : this.voucher.getGiaGiam());
+        this.tongTien = tinhThanhTien() - ((this.voucher != null ? 0 : this.voucher.getGiaGiam())* tinhThanhTien());
         return this.tongTien;
     }
 
@@ -42,7 +50,16 @@ public class HoaDon {
         this.khachHang = khachHang;
         this.nhanVien = nhanVien;
     }
-    
+
+    public HoaDon(String maHD, LocalDate ngayLap, double tongTien, Voucher voucher, KhachHang khachHang, NhanVien nhanVien,ArrayList<ChiTietHoaDon> listCTHD) {
+        this.maHD = maHD;
+        this.ngayLap = ngayLap;
+        this.tongTien = tongTien;
+        this.voucher = voucher;
+        this.khachHang = khachHang;
+        this.nhanVien = nhanVien;
+        this.listCTHD = listCTHD;
+    }
 
     public HoaDon(String maHD) {
         this.maHD = maHD;
