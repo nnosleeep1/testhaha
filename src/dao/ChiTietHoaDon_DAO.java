@@ -7,18 +7,20 @@ import connect.ConnectDB;
 import java.sql.*;
 import java.util.ArrayList;
 import entity.ThuocvaDoanhThu;
+
 public class ChiTietHoaDon_DAO {
 
     // Phương thức tạo mới một đối tượng ChiTietHoaDon
     public Boolean create(ChiTietHoaDon chiTiet) {
         int n = 0;
-        
+
         try {
             PreparedStatement ps = ConnectDB.conn.prepareStatement("INSERT INTO ChiTietHoaDon VALUES (?,?,?,?)");
-            ps.setInt(1, chiTiet.getSoLuong());
-            ps.setDouble(2, chiTiet.getDonGia());
-            ps.setString(3, chiTiet.getThuoc().getMaThuoc());  // Giả sử Thuoc có phương thức getMaThuoc()
-            ps.setString(4, chiTiet.getHoaDon().getMaHD()); // Giả sử HoaDon có phương thức getMaHoaDon()
+            ps.setString(1, chiTiet.getHoaDon().getMaHD());
+            ps.setString(2, chiTiet.getThuoc().getMaThuoc());
+            ps.setInt(3, chiTiet.getSoLuong());
+            ps.setDouble(4, chiTiet.getDonGia());
+
             n = ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -29,23 +31,23 @@ public class ChiTietHoaDon_DAO {
     // Phương thức lấy tất cả các đối tượng ChiTietHoaDon
     public ArrayList<ChiTietHoaDon> getAllChiTietHoaDon() {
         ArrayList<ChiTietHoaDon> list = new ArrayList<>();
-        
+
         try {
             ConnectDB.connect();
             String sql = "SELECT * FROM ChiTietHoaDon";
             PreparedStatement ps = ConnectDB.conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
-            
+
             while (rs.next()) {
                 int soLuong = rs.getInt("soLuong");
                 double donGia = rs.getDouble("donGia");
-                
+
                 String maThuoc = rs.getString("maThuoc");
                 String maHoaDon = rs.getString("maHoaDon");
-                
+
                 Thuoc thuoc = new Thuoc_DAO().getThuoc(maThuoc);  // Lấy thông tin thuốc
                 HoaDon hoaDon = new HoaDon_DAO().getHoaDon(maHoaDon); // Lấy thông tin hóa đơn
-                
+
                 ChiTietHoaDon chiTiet = new ChiTietHoaDon(soLuong, donGia, thuoc, hoaDon);
                 list.add(chiTiet);
             }
@@ -65,10 +67,10 @@ public class ChiTietHoaDon_DAO {
             if (rs.next()) {
                 int soLuong = rs.getInt("soLuong");
                 double donGia = rs.getDouble("donGia");
-                
+
                 Thuoc thuoc = new Thuoc_DAO().getThuoc(maThuoc);
                 HoaDon hoaDon = new HoaDon_DAO().getHoaDon(maHoaDon);
-                
+
                 return new ChiTietHoaDon(soLuong, donGia, thuoc, hoaDon);
             }
         } catch (SQLException e) {
@@ -82,7 +84,7 @@ public class ChiTietHoaDon_DAO {
         int n = 0;
         try {
             PreparedStatement ps = ConnectDB.conn.prepareStatement(
-                "UPDATE ChiTietHoaDon SET soLuong = ?, donGia = ? WHERE maThuoc = ? AND maHoaDon = ?");
+                    "UPDATE ChiTietHoaDon SET soLuong = ?, donGia = ? WHERE maThuoc = ? AND maHoaDon = ?");
             ps.setInt(1, newChiTiet.getSoLuong());
             ps.setDouble(2, newChiTiet.getDonGia());
             ps.setString(3, maThuoc);
@@ -122,31 +124,31 @@ public class ChiTietHoaDon_DAO {
         }
         return n;
     }
-   public ArrayList<ThuocvaDoanhThu> getTop10ThuocCoDoanhThuCaoNhat() {
-    ArrayList<ThuocvaDoanhThu> topThuocList = new ArrayList<>();
-    
-    try {
-        String sql = "SELECT TOP 10 maThuoc, SUM(soLuong * donGia) AS doanhThu " +
-                     "FROM ChiTietHoaDon " +
-                     "GROUP BY maThuoc " +
-                     "ORDER BY doanhThu DESC";
-        PreparedStatement ps = ConnectDB.conn.prepareStatement(sql);
-        ResultSet rs = ps.executeQuery();
-        
-        while (rs.next()) {
-            String maThuoc = rs.getString("maThuoc");
-            double doanhThu = rs.getDouble("doanhThu");
-            
-            Thuoc thuoc = new Thuoc_DAO().getThuoc(maThuoc);
-            ThuocvaDoanhThu thuocDoanhThu = new ThuocvaDoanhThu(thuoc, doanhThu);
-            topThuocList.add(thuocDoanhThu);
-        }
-    } catch (SQLException e) {
-        e.printStackTrace();
-    }
-    
-    return topThuocList;
-}
 
+    public ArrayList<ThuocvaDoanhThu> getTop10ThuocCoDoanhThuCaoNhat() {
+        ArrayList<ThuocvaDoanhThu> topThuocList = new ArrayList<>();
+
+        try {
+            String sql = "SELECT TOP 10 maThuoc, SUM(soLuong * donGia) AS doanhThu "
+                    + "FROM ChiTietHoaDon "
+                    + "GROUP BY maThuoc "
+                    + "ORDER BY doanhThu DESC";
+            PreparedStatement ps = ConnectDB.conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                String maThuoc = rs.getString("maThuoc");
+                double doanhThu = rs.getDouble("doanhThu");
+
+                Thuoc thuoc = new Thuoc_DAO().getThuoc(maThuoc);
+                ThuocvaDoanhThu thuocDoanhThu = new ThuocvaDoanhThu(thuoc, doanhThu);
+                topThuocList.add(thuocDoanhThu);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return topThuocList;
+    }
 
 }

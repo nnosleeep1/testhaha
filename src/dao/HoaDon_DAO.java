@@ -20,9 +20,10 @@ public class HoaDon_DAO {
             ps.setString(1, hoaDon.getMaHD());
             ps.setDate(2, java.sql.Date.valueOf(hoaDon.getNgayLap()));
             ps.setDouble(3, hoaDon.getTongTien());
-            ps.setString(4, hoaDon.getVoucher().getMaVoucher());  // Giả sử Voucher có phương thức getMaVoucher()
-            ps.setString(5, hoaDon.getKhachHang().getMaKH()); // Giả sử KhachHang có phương thức getMaKhachHang()
-            ps.setString(6, hoaDon.getNhanVien().getMaNhanVien()); // Giả sử NhanVien có phương thức getMaNhanVien()
+            ps.setString(4, hoaDon.getNhanVien().getMaNhanVien());
+            ps.setString(5, hoaDon.getKhachHang().getMaKH());
+
+            ps.setString(6, hoaDon.getVoucher().getMaVoucher());
             n = ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -93,7 +94,7 @@ public class HoaDon_DAO {
         int n = 0;
         try {
             PreparedStatement ps = ConnectDB.conn.prepareStatement(
-                "UPDATE HoaDon SET ngayLap = ?, tongTien = ?, maVoucher = ?, maKhachHang = ?, maNhanVien = ? WHERE maHD = ?");
+                    "UPDATE HoaDon SET ngayLap = ?, tongTien = ?, maVoucher = ?, maKhachHang = ?, maNhanVien = ? WHERE maHD = ?");
             ps.setDate(1, java.sql.Date.valueOf(newHoaDon.getNgayLap()));
             ps.setDouble(2, newHoaDon.getTongTien());
             ps.setString(3, newHoaDon.getVoucher().getMaVoucher());

@@ -6,6 +6,7 @@ package gui;
 
 import com.mallowigi.idea.utils.MTUI;
 import com.mallowigi.idea.utils.MTUI.Notification;
+import dao.ChiTietHoaDon_DAO;
 import dao.DonViTinh_DAO;
 import dao.HoaDon_DAO;
 import dao.KhachHang_DAO;
@@ -54,11 +55,16 @@ public class Order_GUI extends javax.swing.JPanel {
     private KhachHang kh;
     private NhanVien nv;
     private TaiKhoan tk;
+    // lưu biến cập nhật stt của hoa đơn
+    private static LocalDate lastGeneratedDate = LocalDate.now();
+    private static int dailyCounter = 0;
 
     public Order_GUI(TaiKhoan tk) {
         initComponents();
         this.btnOptionsList = new JButton[]{btn_op1, btn_op2, btn_op3, btn_op4, btn_op5, btn_op6, btn_op7, btn_op8, btn_op9};
         this.tk = tk;
+        initNhanvien();
+
         kh_DAO = new KhachHang_DAO();
         hd_DAO = new HoaDon_DAO();
         listCTHD = new ArrayList<>();
@@ -67,7 +73,6 @@ public class Order_GUI extends javax.swing.JPanel {
         jtf_maHoaDon.setText(xuLyMaHoaDon());
         jtf_ngayTao.setText(LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
         initGoiY();
-        initNhanvien();
     }
 
     @SuppressWarnings("unchecked")
@@ -92,10 +97,8 @@ public class Order_GUI extends javax.swing.JPanel {
 
     }
 
-    //    Tính toán gợi ý số tiền khách đưa dựa vào 9 mệnh giá tiền
     private void calculateOptionCashGive() {
 
-//        Mảng các nút chọn
         double orderPay = Double.valueOf(jtf_khachTra.getText().equalsIgnoreCase("") ? "0" : jtf_khachTra.getText());
 
         if (orderPay == 0) {
@@ -105,17 +108,14 @@ public class Order_GUI extends javax.swing.JPanel {
 
         Integer[] roundValues = new Integer[]{1000, 2000, 5000, 10000, 20000, 50000, 100000, 200000, 500000};
 
-//        Tính toán các giá trị gợi ý dựa vào mảng số tiền + Loại bỏ giá trị trùng lắp
         Set<Double> values = new HashSet<>();
         for (Integer item : roundValues) {
             values.add(orderPay + (item - orderPay % item));
         }
 
-//        Sort set
         List<Double> list = new ArrayList<>(values);
         Collections.sort(list);
 
-//        Gán giá trị cho các nút
         int index = 0;
 
         for (Double value : list) {
@@ -126,18 +126,14 @@ public class Order_GUI extends javax.swing.JPanel {
             btnOptionsList[index].setText(String.format("%.0fk (%d)", value / 1000, index + 1));
             btnOptionsList[index].setVisible(true);
 
-//            Set phím tắt nhanh
-//            VK_1 = 49
             btnOptionsList[index].setMnemonic(index + 49);
             index++;
         }
 
-//      Khi tổng tiền không lẻ dưới 1000 thì nút đầu sẽ trở thành tổng tiền
         if (Math.round(orderPay) % 1000 == 0) {
             btnOptionsList[0].setText(String.format("%.0fk (1)", orderPay / 1000));
         }
-
-//        Ẩn đi các nút không có giá trị
+//ẩn các button không chứa tiền
         for (; index < btnOptionsList.length; index++) {
             if (index >= btnOptionsList.length) {
                 break;
@@ -147,7 +143,6 @@ public class Order_GUI extends javax.swing.JPanel {
             btnOptionsList[index].setMnemonic(0);
         }
 
-//        rerender
         for (JButton item : btnOptionsList) {
             item.revalidate();
             item.repaint();
@@ -793,14 +788,23 @@ public class Order_GUI extends javax.swing.JPanel {
     }//GEN-LAST:event_jtf_voucherKeyPressed
 
     public String xuLyMaHoaDon() {
+        // nếu khác ngày thì reset lại dailycouter
+        LocalDate currentDate = LocalDate.now();
+        if (!currentDate.equals(lastGeneratedDate)) {
+            dailyCounter = 0; // Reset the counter for the new day
+            lastGeneratedDate = currentDate;
+        }
+
+        dailyCounter++;
         String maHD = "HD";
         String nam = (LocalDate.now().getYear() + "").substring(2, 4);
         String thang = (LocalDate.now().getMonthValue() + "");
         String ngay = (LocalDate.now().getDayOfMonth() + "");
         maHD = maHD + (nam + thang + ngay);
+        String maNV = nv.getMaNhanVien().substring(2);
         ArrayList<HoaDon> listHD = new HoaDon_DAO().getAllHoaDon();
 
-        maHD = maHD + String.format("%04d", listHD.size() + 1);
+        maHD = maHD + maNV + String.format("%05d", dailyCounter);
         return maHD;
 
     }
@@ -879,8 +883,26 @@ public class Order_GUI extends javax.swing.JPanel {
                 String maVoucher = jtf_voucher.getText().equalsIgnoreCase("") ? "" : jtf_voucher.getText();
                 if (!maVoucher.equalsIgnoreCase("")) {
                     hd.setVoucher(new Voucher_DAO().getVoucher(maVoucher));
+                } else {
+                    hd.setVoucher(new Voucher(""));
                 }
-                Notifications.getInstance().show(Notifications.Type.SUCCESS, "Đã tạo thành công đơn hàng" + hd.getMaHD());
+                if (hd_DAO.create(hd)) {
+                    boolean check = true;
+                    for (ChiTietHoaDon cthd : listCTHD) {
+                        if (!new ChiTietHoaDon_DAO().create(cthd)) {
+                            check = false;
+                        }
+                    }
+                    if (check) {
+                        Notifications.getInstance().show(Notifications.Type.SUCCESS, "Đã tạo thành công đơn hàng" + hd.getMaHD());
+
+                    }
+
+                } else {
+                    Notifications.getInstance().show(Notifications.Type.ERROR, "Không thể tạo đơn hàng " + hd.getMaHD());
+
+                }
+
             } else {
                 if (jtf_sdt.getText().equalsIgnoreCase("")) {
                     Notifications.getInstance().show(Notifications.Type.WARNING, "Bạn chưa nhập số điện thoại");
