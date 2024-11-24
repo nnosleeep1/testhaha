@@ -69,25 +69,6 @@ public class Notifications extends javax.swing.JPanel {
             JLabel label = new JLabel();
             long p2 = ChronoUnit.DAYS.between(med.getHsd(), LocalDate.now());
             panel.add(new Item(med.getMaThuoc(), med.getTenThuoc(), "Vừa hết hạn " + p2 + " ngày"), "growx, wrap");
-            panel.add(new Item(med.getMaThuoc(), med.getTenThuoc(), "Vừa hết hạn " + p2 + " ngày"), "growx, wrap");
-            panel.add(new Item(med.getMaThuoc(), med.getTenThuoc(), "Vừa hết hạn " + p2 + " ngày"), "growx, wrap");
-            panel.add(new Item(med.getMaThuoc(), med.getTenThuoc(), "Vừa hết hạn " + p2 + " ngày"), "growx, wrap");
-            panel.add(new Item(med.getMaThuoc(), med.getTenThuoc(), "Vừa hết hạn " + p2 + " ngày"), "growx, wrap");
-            panel.add(new Item(med.getMaThuoc(), med.getTenThuoc(), "Vừa hết hạn " + p2 + " ngày"), "growx, wrap");
-            panel.add(new Item(med.getMaThuoc(), med.getTenThuoc(), "Vừa hết hạn " + p2 + " ngày"), "growx, wrap");
-            panel.add(new Item(med.getMaThuoc(), med.getTenThuoc(), "Vừa hết hạn " + p2 + " ngày"), "growx, wrap");
-            panel.add(new Item(med.getMaThuoc(), med.getTenThuoc(), "Vừa hết hạn " + p2 + " ngày"), "growx, wrap");
-            panel.add(new Item(med.getMaThuoc(), med.getTenThuoc(), "Vừa hết hạn " + p2 + " ngày"), "growx, wrap");
-            panel.add(new Item(med.getMaThuoc(), med.getTenThuoc(), "Vừa hết hạn " + p2 + " ngày"), "growx, wrap");
-            panel.add(new Item(med.getMaThuoc(), med.getTenThuoc(), "Vừa hết hạn " + p2 + " ngày"), "growx, wrap");
-            panel.add(new Item(med.getMaThuoc(), med.getTenThuoc(), "Vừa hết hạn " + p2 + " ngày"), "growx, wrap");
-            panel.add(new Item(med.getMaThuoc(), med.getTenThuoc(), "Vừa hết hạn " + p2 + " ngày"), "growx, wrap");
-            panel.add(new Item(med.getMaThuoc(), med.getTenThuoc(), "Vừa hết hạn " + p2 + " ngày"), "growx, wrap");
-            panel.add(new Item(med.getMaThuoc(), med.getTenThuoc(), "Vừa hết hạn " + p2 + " ngày"), "growx, wrap");
-            panel.add(new Item(med.getMaThuoc(), med.getTenThuoc(), "Vừa hết hạn " + p2 + " ngày"), "growx, wrap");
-            panel.add(new Item(med.getMaThuoc(), med.getTenThuoc(), "Vừa hết hạn " + p2 + " ngày"), "growx, wrap");
-            panel.add(new Item(med.getMaThuoc(), med.getTenThuoc(), "Vừa hết hạn " + p2 + " ngày"), "growx, wrap");
-            panel.add(new Item(med.getMaThuoc(), med.getTenThuoc(), "Vừa hết hạn " + p2 + " ngày"), "growx, wrap");
         }
 
         panel.revalidate();

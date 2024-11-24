@@ -1,4 +1,4 @@
-package sample.message;
+package utilities;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -10,10 +10,6 @@ import javax.swing.JButton;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
-/**
- *
- * @author RAVEN
- */
 public class Button extends JButton {
 
     private boolean mousePress;

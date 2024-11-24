@@ -18,6 +18,7 @@ public class Voucher_DAO {
             ps.setString(3, voucher.getMoTa());
             ps.setDate(4, java.sql.Date.valueOf(voucher.getNgayApDung()));
             ps.setDate(5, java.sql.Date.valueOf(voucher.getNgayKetThuc()));
+             ps.setDate(6, java.sql.Date.valueOf(voucher.getNgayKetThuc()));
             n = ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

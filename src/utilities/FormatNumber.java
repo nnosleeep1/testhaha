@@ -8,18 +8,8 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Locale;
 
-/**
- *
- * @author thanhcanhit
- */
 public class FormatNumber {
 
-    /**
-     * Định dạng số kém với đơn vị đ
-     *
-     * @param value
-     * @return string chuỗi sau khi được format
-     */
     public static String toVND(Double value) {
         NumberFormat vndFormat = NumberFormat.getCurrencyInstance(new Locale("vi", "vn"));
         return vndFormat.format(value);

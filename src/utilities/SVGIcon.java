@@ -9,10 +9,6 @@ import com.formdev.flatlaf.ui.FlatUIUtils;
 import java.awt.Color;
 import javax.swing.Icon;
 
-/**
- *
- * @author thanhcanhit
- */
 public class SVGIcon {
     private static final Color LIGHT_COLOR = FlatUIUtils.getUIColor("Menu.icon.lightColor", Color.white);
     private static final Color DARK_COLOR = FlatUIUtils.getUIColor("Menu.icon.darkColor", Color.white);

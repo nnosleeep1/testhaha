@@ -13,26 +13,30 @@ import java.security.NoSuchAlgorithmException;
  */
 public class PasswordHash {
 
-    public static String hashPassword(String password) throws NoSuchAlgorithmException {
-        // Tạo đối tượng MessageDigest với thuật toán MD5
-        MessageDigest md = MessageDigest.getInstance("MD5");
-
-        // Băm mật khẩu thành một mảng byte
-        byte[] bytes = md.digest(password.getBytes());
-
-        // Chuyển đổi mảng byte thành chuỗi hex
-        String hash = bytesToHex(bytes);
-
-        return hash;
+    public String hashPassword(String password) {
+    try {
+        MessageDigest digest = MessageDigest.getInstance("SHA-256");
+        byte[] hash = digest.digest(password.getBytes());
+        StringBuilder hexString = new StringBuilder();
+        for (byte b : hash) {
+            String hex = Integer.toHexString(0xff & b);
+            if (hex.length() == 1) hexString.append('0');
+            hexString.append(hex);
+        }
+        return hexString.toString();
+    } catch (NoSuchAlgorithmException e) {
+        e.printStackTrace();
+        return null;
     }
+}
 
-    public static boolean comparePasswords(String password, String hashedPassword) throws NoSuchAlgorithmException {
-        // Băm mật khẩu nhập vào
-        String hashedInputPassword = hashPassword(password);
-
-        // So sánh 2 chuỗi hash
-        return hashedInputPassword.equals(hashedPassword);
-    }
+//    public static boolean comparePasswords(String password, String hashedPassword) throws NoSuchAlgorithmException {
+//        // Băm mật khẩu nhập vào
+//        String hashedInputPassword = hashPassword(password);
+//
+//        // So sánh 2 chuỗi hash
+//        return hashedInputPassword.equals(hashedPassword);
+//    }
 
     private static String bytesToHex(byte[] bytes) {
         // Tạo một StringBuilder để lưu trữ kết quả

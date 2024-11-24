@@ -25,6 +25,7 @@ import gui.Products_GUI;
 import gui.Return_Order_GUI;
 import gui.ThongKeDoanhThu;
 import gui.ThongKeKhachHang;
+import gui.ThongKeThuoc;
 import gui.ThongKeThuoc_GUI;
 import gui.event.EventMenuSelected;
 import gui.event.EventShowPopupMenu;
@@ -35,10 +36,7 @@ import gui.swing.MenuItem;
 import gui.swing.PopupMenu;
 import java.awt.Component;
 import java.awt.Dimension;
-import net.miginfocom.swing.MigLayout;
-import java.awt.Rectangle;
-import java.awt.Toolkit;
-import java.awt.Window;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
@@ -126,7 +124,8 @@ public class Main extends javax.swing.JFrame {
                 } else if (menuIndex == 2) {
                     if (subMenuIndex == 0) {
                         try {
-                            main.showForm(new ThongKeThuoc_GUI());
+                            ThongKeThuoc thongKeThuocPanel = new ThongKeThuoc();
+                            main.showForm(thongKeThuocPanel);
                         } catch (Exception ex) {
                             ex.printStackTrace();
                             // Show an error message to the user
@@ -135,7 +134,11 @@ public class Main extends javax.swing.JFrame {
                     } else if (subMenuIndex == 1) {
                         main.showForm(new ThongKeKhachHang());
                     } else if (subMenuIndex == 2) {
-                        main.showForm(new ThongKeDoanhThu());
+                        try {
+                            main.showForm(new ThongKeDoanhThu());
+                        } catch (SQLException ex) {
+                            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                     } else if (subMenuIndex == 3) {
                         main.showForm(new KetCa());
                     }
@@ -276,6 +279,7 @@ public class Main extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
+                new splashscreen.SplashScreen(null,true).setVisible(true);
                 try {
                     new Main().setVisible(true);
                 } catch (SQLException ex) {

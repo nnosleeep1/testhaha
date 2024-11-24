@@ -61,7 +61,7 @@ public class Header extends javax.swing.JPanel {
         lbUserName = new javax.swing.JLabel();
         lbRole = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
-        cmd = new sample.message.Button();
+        cmd = new utilities.Button();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setForeground(new java.awt.Color(127, 127, 127));
@@ -97,7 +97,7 @@ public class Header extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(cdmMenu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 354, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 365, Short.MAX_VALUE)
                 .addComponent(cmd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -115,18 +115,18 @@ public class Header extends javax.swing.JPanel {
                 .addGap(16, 16, 16)
                 .addComponent(cdmMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(cmd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(pic, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(cmd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(pic, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addComponent(lbUserName)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(lbRole))
-                    .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addComponent(jSeparator1))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -145,34 +145,11 @@ public class Header extends javax.swing.JPanel {
         });
     }//GEN-LAST:event_cmdActionPerformed
 
-    private void showExpiredMedications() {
-        // Clear previous items
-        expiredMedsPopup.removeAll();
-
-        // Retrieve list of expired medications from the DAO
-        ArrayList<Thuoc> listThuocHetHan = new Thuoc_DAO().getThuocHetHan();
-
-        // Customize and display each expired medication as a styled label in the popup menu
-        for (Thuoc med : listThuocHetHan) {
-            JLabel label = new JLabel(med.getTenThuoc() + " - Expired on: " + med.getHsd());
-            label.setFont(new Font("Segoe UI", Font.PLAIN, 12));
-            label.setOpaque(true);
-            label.setBackground(new Color(245, 245, 245));
-            label.setForeground(new Color(100, 100, 100));
-            label.setHorizontalAlignment(SwingConstants.LEFT);
-            label.setBorder(new EmptyBorder(5, 10, 5, 10)); // Padding around text
-            label.setPreferredSize(new Dimension(250, 30));  // Fixed width for consistency
-
-            expiredMedsPopup.add(label);
-        }
-
-        expiredMedsPopup.show(cdmMenu, cdmMenu.getWidth() + 800, cdmMenu.getHeight());
-    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private gui.swing.Button cdmMenu;
-    private sample.message.Button cmd;
+    private utilities.Button cmd;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel lbRole;
     private javax.swing.JLabel lbUserName;

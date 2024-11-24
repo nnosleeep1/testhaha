@@ -22,6 +22,8 @@ import entity.NhanVien;
 import entity.TaiKhoan;
 import entity.Thuoc;
 import entity.Voucher;
+import enums.DiscountType;
+import java.awt.HeadlessException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -34,8 +36,10 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Set;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.event.TableModelEvent;
 import javax.swing.table.DefaultTableModel;
 import raven.toast.Notifications;
 import utilities.OrderPrinter;
@@ -68,10 +72,22 @@ public class Order_GUI extends javax.swing.JPanel {
         kh_DAO = new KhachHang_DAO();
         hd_DAO = new HoaDon_DAO();
         listCTHD = new ArrayList<>();
-        model_cart = new DefaultTableModel(new String[]{"Mã Thuốc", "Tên", "Loại", "Số lượng", "Đơn vị", "Giá", "Thuế", "Thành tiền"}, 0);
+        model_cart = new DefaultTableModel(new String[]{"Mã Thuốc", "Tên", "Loại", "Số lượng", "Đơn vị", "Giá", "Thuế", "Thành tiền"}, 0) {
+            @Override
+            // cho phép sửa ô số lượng
+            public boolean isCellEditable(int row, int column) {
+                if (column == 3) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+
+        };
         tableCart.setModel(model_cart);
         jtf_maHoaDon.setText(xuLyMaHoaDon());
         jtf_ngayTao.setText(LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+        suaSoLuong();
         initGoiY();
     }
 
@@ -202,14 +218,80 @@ public class Order_GUI extends javax.swing.JPanel {
         });
 
     }
+
+    // cho phep sua soLuong
+    public void suaSoLuong() {
+        tableCart.getModel().addTableModelListener((evt) -> {
+            int row = evt.getFirstRow();
+            int col = evt.getColumn();
+            if (row == -1 || col == -1 || col != 3) {
+                return;
+            }
+
+            try {
+                int soLuongMoi = Integer.parseInt(tableCart.getValueAt(row, col) + "");
+                ChiTietHoaDon current = listCTHD.get(row);
+
+                // reset lại tiền khách đưa
+                jtf_tienKhachDua.setText("");
+
+                if (soLuongMoi < 0) {
+                    Notifications.getInstance().show(Notifications.Type.WARNING, "Số lượng không được bé hơn 0");
+                    tableCart.setValueAt(current.getSoLuong(), row, col);
+                    return;
+                }
+                if (soLuongMoi == 0) {
+                    if (JOptionPane.showConfirmDialog(this, "Xóa sản phẩm " + current.getThuoc().getMaThuoc() + " ra khỏi giỏ hàng", "Xóa sản phẩm khỏi giỏ", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                        listCTHD.remove(current);
+                        renderCartTable();
+                        return;
+                    } else {
+                        tableCart.setValueAt(current.getSoLuong(), row, col);
+                        return;
+                    }
+                }
+
+                if (current.getThuoc().getSoLuongTon() >= soLuongMoi) {
+                    // Update new quantity
+                    current.setSoLuong(soLuongMoi);
+                    renderCartTable();
+
+                } else {
+                    // Revert to old quantity
+                    tableCart.setValueAt(current.getSoLuong(), row, col);
+                    Notifications.getInstance().show(Notifications.Type.ERROR, "Số lượng sản phẩm không đủ!");
+                }
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+                Notifications.getInstance().show(Notifications.Type.INFO, "Số lượng không hợp lệ");
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                Notifications.getInstance().show(Notifications.Type.ERROR, "Không thể cập nhật số lượng mới!");
+            }
+        });
+        renderCartTable();
+
+    }
+
+    private void renderCartTable() {
+        model_cart.setRowCount(0);
+
+//        double totalTemp = 0.0;
+        for (ChiTietHoaDon item : listCTHD) {
+            Object[] newRow = initObject(item.getThuoc(), item.getSoLuong());
+            model_cart.addRow(newRow);
+        };
+        initDoanhThu();
+        initGoiY();
+
+    }
+
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jRadioButton1 = new javax.swing.JRadioButton();
         jtf_tenKH = new javax.swing.JTextField();
         jtf_sdt = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
@@ -258,15 +340,6 @@ public class Order_GUI extends javax.swing.JPanel {
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel2.setText("Tên khách hàng : ");
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jLabel3.setText("Khách vãng lai :");
-
-        jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton1ActionPerformed(evt);
-            }
-        });
-
         jtf_tenKH.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jtf_tenKHActionPerformed(evt);
@@ -296,30 +369,21 @@ public class Order_GUI extends javax.swing.JPanel {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jtf_tenKH, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jRadioButton1)))
+                        .addComponent(jtf_tenKH, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(66, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jtf_sdt, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jtf_tenKH, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jRadioButton1))
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jtf_sdt, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jtf_tenKH, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(48, Short.MAX_VALUE))
         );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Thông tin hóa đơn", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 16))); // NOI18N
@@ -654,10 +718,6 @@ public class Order_GUI extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jRadioButton1ActionPerformed
-
     private void jtf_tenKHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtf_tenKHActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jtf_tenKHActionPerformed
@@ -715,7 +775,9 @@ public class Order_GUI extends javax.swing.JPanel {
 
             } else {
                 soLuong = Integer.valueOf(jtf_soLuong.getText());
+                if (soLuong == 0) {
 
+                }
                 for (int i = 0; i < model_cart.getRowCount(); i++) {
                     // nếu trùng thì sửa đổi nó
 
@@ -727,7 +789,13 @@ public class Order_GUI extends javax.swing.JPanel {
                         while (iterator.hasNext()) {
                             ChiTietHoaDon item = iterator.next();
                             if (item.getThuoc().getMaThuoc().equalsIgnoreCase(t.getMaThuoc())) {
+                                if (JOptionPane.showConfirmDialog(this, "Xóa sản phẩm " + t.getMaThuoc() + " ra khỏi giỏ hàng", "Xóa sản phẩm khỏi giỏ", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                                    listCTHD.remove(item);
+                                    renderCartTable();
+                                    return;
+                                }
                                 iterator.set(new ChiTietHoaDon(soLuong, t.getGia(), t, new HoaDon(jtf_maHoaDon.getText())));
+
                             }
                         }
                         checkTrung = true;
@@ -779,10 +847,18 @@ public class Order_GUI extends javax.swing.JPanel {
                 Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_LEFT, "Vui lòng thêm sản phẩm trước khi nhập voucher");
 
             } else {
-                Double giaGiam = new Voucher_DAO().getVoucher(jtf_voucher.getText()).getGiaGiam();
-                double khachHangTra = Double.valueOf(jtf_khachTra.getText());
-                jtf_khachTra.setText((khachHangTra - (giaGiam * khachHangTra)) + "");
-                initGoiY();
+                System.out.println(new Voucher_DAO().getVoucher(jtf_voucher.getText()).getNgayKetThuc());
+                if (new Voucher_DAO().getVoucher(jtf_voucher.getText()).getNgayKetThuc().isAfter(LocalDate.now())) {
+                    
+                    Double giaGiam = new Voucher_DAO().getVoucher(jtf_voucher.getText()).getGiaGiam();
+                    double khachHangTra = Double.valueOf(jtf_khachTra.getText());
+                    jtf_khachTra.setText((khachHangTra - (giaGiam * khachHangTra)) + "");
+                    initGoiY();
+                } else {
+                    Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_LEFT, "Vocher hết hạn sử dụng");
+
+                }
+
             }
         }
     }//GEN-LAST:event_jtf_voucherKeyPressed
@@ -841,7 +917,6 @@ public class Order_GUI extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -852,7 +927,6 @@ public class Order_GUI extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JComboBox<String> jcb_phuongThuc;
     private javax.swing.JTextField jtf_khachTra;

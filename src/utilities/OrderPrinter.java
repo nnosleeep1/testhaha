@@ -245,16 +245,6 @@ public class OrderPrinter {
             document.add(note);
             document.add(note2);
 
-//            Order barcode
-            // Convert the BufferedImage to a byte array
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ImageIO.write(BarcodeGenerator.generateBarcode(order.getMaHD()), "PNG", baos);
-            byte[] bytes = resizeImage(baos.toByteArray(), 500, 200);
-            // Create an Image from the byte array
-            Image image = Image.getInstance(bytes);
-            image.setAlignment(1);
-            document.add(image);
-
             //Close document and outputStream.
             document.close();
             outputStream.close();

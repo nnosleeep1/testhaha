@@ -7,10 +7,6 @@ package utilities;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 
-/**
- *
- * @author Hoàng Khang
- */
 public class ExcelExporter {
 
 //    public static void exportToExcel(ArrayList<String> dataList, String filePath) {

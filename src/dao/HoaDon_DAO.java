@@ -5,6 +5,7 @@ import entity.KhachHang;
 import entity.NhanVien;
 import entity.Voucher;
 import connect.ConnectDB;
+import entity.ThangVaDoanhThu;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -134,5 +135,199 @@ public class HoaDon_DAO {
             e.printStackTrace();
         }
         return n;
+    }
+
+    public ArrayList<ThangVaDoanhThu> getDoanhThuTheoThang(int nam) {
+        ArrayList<ThangVaDoanhThu> topThuocList = new ArrayList<>();
+
+        try {
+            // SQL query to get total revenue per month for the specified year
+            String sql = "SELECT MONTH(ngayLap) AS Thang, SUM(tongTien) AS TongTien "
+                    + "FROM HoaDon "
+                    + "WHERE YEAR(ngayLap) = ? "
+                    + "GROUP BY MONTH(ngayLap) "
+                    + "ORDER BY MONTH(ngayLap)";  // Order by month
+
+            PreparedStatement ps = ConnectDB.conn.prepareStatement(sql);
+            ps.setInt(1, nam); // Set the year parameter (it should be an integer, not a date)
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                int thang = rs.getInt("Thang"); // Retrieve the month
+                double tongTien = rs.getDouble("TongTien"); // Retrieve total revenue
+
+                // Assuming you want to get the medicine for the corresponding month, 
+                // you might need to fetch it based on your application logic.
+                // For this example, I'll leave it as is. Adjust as needed.
+                // Method to retrieve medicine data
+                ThangVaDoanhThu thuocDoanhThu = new ThangVaDoanhThu(thang, tongTien);
+                topThuocList.add(thuocDoanhThu);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return topThuocList;
+    }
+
+    public ArrayList<ThangVaDoanhThu> getDoanhThuTheoNgay(int thang, int nam) {
+        ArrayList<ThangVaDoanhThu> dailyRevenueList = new ArrayList<>();
+
+        try {
+            // SQL query to get total revenue per day for the specified month and year
+            String sql = "SELECT DAY(ngayLap) AS Ngay, SUM(tongTien) AS TongTien "
+                    + "FROM HoaDon "
+                    + "WHERE MONTH(ngayLap) = ? AND YEAR(ngayLap) = ? "
+                    + "GROUP BY DAY(ngayLap) "
+                    + "ORDER BY DAY(ngayLap)";  // Order by day
+
+            PreparedStatement ps = ConnectDB.conn.prepareStatement(sql);
+            ps.setInt(1, thang); // Set the month parameter
+            ps.setInt(2, nam);   // Set the year parameter
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                int ngay = rs.getInt("Ngay");           // Retrieve the day
+                double tongTien = rs.getDouble("TongTien"); // Retrieve total revenue for that day
+
+                // Create a NgayVaDoanhThu object to store daily revenue
+                ThangVaDoanhThu dailyRevenue = new ThangVaDoanhThu(ngay, tongTien);
+                dailyRevenueList.add(dailyRevenue);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return dailyRevenueList;
+    }
+
+    public int getSizeOfMonth(int month, int year) {
+        int count = 0;
+        String query = "SELECT COUNT(*) AS total FROM HoaDon WHERE MONTH(ngayLap) = ? AND YEAR(ngayLap) = ?";
+        try {
+            PreparedStatement ps = ConnectDB.conn.prepareStatement(query);
+            ps.setInt(1, month);  // Set the month parameter
+            ps.setInt(2, year);   // Set the year parameter
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                count = rs.getInt("total");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return count;
+    }
+
+    
+    
+    public int getSizeOfYear( int year) {
+        int count = 0;
+        String query = "SELECT COUNT(*) AS total FROM HoaDon WHERE  YEAR(ngayLap) = ?";
+        try {
+            PreparedStatement ps = ConnectDB.conn.prepareStatement(query);
+            ps.setInt(1, year);  // Set the month parameter
+             // Set the year parameter
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                count = rs.getInt("total");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return count;
+    }
+    public int getSizeHoaDonTheoNgay(int day, int month, int year) {
+        int count = 0;
+        String query = "SELECT COUNT(*) AS total FROM HoaDon WHERE DAY(ngayLap) = ? AND MONTH(ngayLap) = ? AND YEAR(ngayLap) = ?";
+        try {
+            PreparedStatement ps = ConnectDB.conn.prepareStatement(query);
+            ps.setInt(1, day);    // Set the day parameter
+            ps.setInt(2, month);  // Set the month parameter
+            ps.setInt(3, year);   // Set the year parameter
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                count = rs.getInt("total");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return count;
+    }
+    
+     public double getDoanhThuCuaNam( int year) {
+    double count = 0;
+    String query = "SELECT SUM(tongTien) AS doanhthu " +
+                   "FROM hoadon " +
+                   "WHERE  YEAR(ngayLap) = ?";
+    try {
+        PreparedStatement ps = ConnectDB.conn.prepareStatement(query);
+        ps.setInt(1, year);  // Set the month parameter
+         
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            count = rs.getDouble("doanhthu");
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return count;
+}
+     public int getSoLuongKhachHangNam( int year) {
+        int count = 0;
+        String query = "select count(maKH) as soKhachHang from HoaDon where year(ngayLap) =?";
+        try {
+            PreparedStatement ps = ConnectDB.conn.prepareStatement(query);
+            ps.setInt(1, year);  // Set the month parameter
+             // Set the year parameter
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                count = rs.getInt("soKhachHang");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return count;
+    }
+     public int getSoLuongKhachHangThang(int month, int year) {
+        int count = 0;
+        String query = "select count(maKH) as soKhachHang from HoaDon where month(ngayLap)=? and year(ngayLap) =?";
+        try {
+            PreparedStatement ps = ConnectDB.conn.prepareStatement(query);
+            ps.setInt(1, month); 
+            ps.setInt(2, year);// Set the month parameter
+             // Set the year parameter
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                count = rs.getInt("soKhachHang");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return count;
+    }
+     public int getSoLuongKhachHangNgay(int day,int month, int year) {
+        int count = 0;
+        String query = "select count(maKH) as soKhachHang from HoaDon where day(ngayLap)=? and month(ngayLap)=? and year(ngayLap) =?";
+        try {
+            PreparedStatement ps = ConnectDB.conn.prepareStatement(query);
+            ps.setInt(1, day); 
+            ps.setInt(2, month);
+            ps.setInt(3, year);// Set the month parameter
+             // Set the year parameter
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                count = rs.getInt("soKhachHang");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return count;
+    }
+     public static void main(String[] args) throws SQLException {
+         ConnectDB.connect();
+        
+        // System.out.println(new HoaDon_DAO().getDoanhThuCuaThang( 2024));
     }
 }

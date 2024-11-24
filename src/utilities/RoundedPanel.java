@@ -8,11 +8,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.RoundRectangle2D;
 
-/**
- *
- * @author Hoàng Khang
- */
-
 public class RoundedPanel extends JPanel {
     private int cornerRadius = 20;
 
